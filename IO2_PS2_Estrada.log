@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.3.21)  23 MAR 2024 17:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.3.21)  23 MAR 2024 17:57
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -328,7 +328,22 @@ Package hyperref Warning: Option `bookmarks' has already been used,
 (hyperref)                setting the option has no effect on input line 43.
 
 Package hyperref Info: Option `colorlinks' set `true' on input line 43.
-(c:/texlive/2024/texmf-dist/tex/latex/graphics/graphicx.sty
+(c:/texlive/2024/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2024/01/20 4.5c verbatim text (tvz,hv)
+\FV@CodeLineNo=\count291
+\FV@InFile=\read2
+\FV@TabBox=\box54
+\c@FancyVerbLine=\count292
+\FV@StepNumber=\count293
+\FV@OutFile=\write3
+) (c:/texlive/2024/texmf-dist/tex/latex/framed/framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip55
+\fb@frw=\dimen163
+\fb@frh=\dimen164
+\FrameRule=\dimen165
+\FrameSep=\dimen166
+) (c:/texlive/2024/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
  (c:/texlive/2024/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
@@ -339,61 +354,60 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 107.
 )
-\Gin@req@height=\dimen163
-\Gin@req@width=\dimen164
+\Gin@req@height=\dimen167
+\Gin@req@width=\dimen168
 ) (c:/texlive/2024/texmf-dist/tex/latex/grffile/grffile.sty
 Package: grffile 2019/11/11 v2.1 Extended file name support for graphics (legacy)
 Package grffile Info: This package is an empty stub for compatibility on input line 40.
 ) (c:/texlive/2024/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count291
+\c@float@type=\count294
 \float@exts=\toks29
-\float@box=\box54
+\float@box=\box55
 \@float@everytoks=\toks30
-\@floatcapt=\box55
+\@floatcapt=\box56
 ) (c:/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-02-20 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count292
-\l__pdf_internal_box=\box56
-)
-No file IO2_PS2_Estrada.aux.
+\l__color_backend_stack_int=\count295
+\l__pdf_internal_box=\box57
+) (./IO2_PS2_Estrada.aux)
 \openout1 = `IO2_PS2_Estrada.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 76.
-LaTeX Font Info:    ... okay on input line 76.
-LaTeX Info: Redefining \microtypecontext on input line 76.
-Package microtype Info: Applying patch `item' on input line 76.
-Package microtype Info: Applying patch `toc' on input line 76.
-Package microtype Info: Applying patch `eqnum' on input line 76.
-Package microtype Info: Applying patch `footnote' on input line 76.
-Package microtype Info: Applying patch `verbatim' on input line 76.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Info: Redefining \microtypecontext on input line 116.
+Package microtype Info: Applying patch `item' on input line 116.
+Package microtype Info: Applying patch `toc' on input line 116.
+Package microtype Info: Applying patch `eqnum' on input line 116.
+Package microtype Info: Applying patch `footnote' on input line 116.
+Package microtype Info: Applying patch `verbatim' on input line 116.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 76.
+LaTeX Info: Redefining \showhyphens on input line 116.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
-(c:/texlive/2024/texmf-dist/tex/latex/microtype/mt-cmr.cfg
+ (c:/texlive/2024/texmf-dist/tex/latex/microtype/mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
 *geometry* driver: auto-detecting
@@ -430,22 +444,23 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring ON on input line 76.
-\@outlinefile=\write3
-\openout3 = `IO2_PS2_Estrada.out'.
+Package hyperref Info: Link coloring ON on input line 116.
+(./IO2_PS2_Estrada.out) (./IO2_PS2_Estrada.out)
+\@outlinefile=\write4
+\openout4 = `IO2_PS2_Estrada.out'.
 
-(c:/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+ (c:/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count293
-\scratchdimen=\dimen165
-\scratchbox=\box57
-\nofMPsegments=\count294
-\nofMParguments=\count295
+\scratchcounter=\count296
+\scratchdimen=\dimen169
+\scratchbox=\box58
+\nofMPsegments=\count297
+\nofMParguments=\count298
 \everyMPshowfont=\toks31
-\MPscratchCnt=\count296
-\MPscratchDim=\dimen166
-\MPnumerator=\count297
-\makeMPintoPDFobject=\count298
+\MPscratchCnt=\count299
+\MPscratchDim=\dimen170
+\MPnumerator=\count300
+\makeMPintoPDFobject=\count301
 \everyMPtoPDFconversion=\toks32
 ) (c:/texlive/2024/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -453,72 +468,80 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (c:/texlive/2024/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 78.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 118.
  (c:/texlive/2024/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 78.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 118.
  (c:/texlive/2024/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 78.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 118.
  (c:/texlive/2024/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 78.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 118.
  (c:/texlive/2024/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 78.
+(Font)              <12> on input line 118.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 78.
+(Font)              <8> on input line 118.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 78.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 78.
+(Font)              <6> on input line 118.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 118.
  (c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (c:/texlive/2024/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 78.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 118.
  (c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (c:/texlive/2024/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-) [1
+)
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 123.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 123.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 123.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 130.
+ (c:/texlive/2024/texmf-dist/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 132.
+<IO2_PS2_Estrada_files/figure-latex/unnamed-chunk-1-1.pdf, id=12, 469.755pt x 325.215pt>
+File: IO2_PS2_Estrada_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file (type pdf)
+<use IO2_PS2_Estrada_files/figure-latex/unnamed-chunk-1-1.pdf>
+Package pdftex.def Info: IO2_PS2_Estrada_files/figure-latex/unnamed-chunk-1-1.pdf  used on input line 141.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+ [1
 
-{c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}] (./IO2_PS2_Estrada.aux)
+{c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}] [2 <./IO2_PS2_Estrada_files/figure-latex/unnamed-chunk-1-1.pdf>] (./IO2_PS2_Estrada.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `IO2_PS2_Estrada.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `IO2_PS2_Estrada.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  470BCA70442211D97B3C8E5F9DCE9DE0;105.
+Package rerunfilecheck Info: File `IO2_PS2_Estrada.out' has not changed.
+(rerunfilecheck)             Checksum: 1407BF229FC6697A15784BA650BBFBC7;403.
  ) 
 Here is how much of TeX's memory you used:
- 12671 strings out of 474116
- 197811 string characters out of 5747717
- 1928190 words of memory out of 5000000
- 34817 multiletter control sequences out of 15000+600000
- 586746 words of font info for 73 fonts, out of 8000000 for 9000
+ 13315 strings out of 474116
+ 208255 string characters out of 5747717
+ 1931190 words of memory out of 5000000
+ 35408 multiletter control sequences out of 15000+600000
+ 603458 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,6n,79p,1008b,446s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr17.pfb>
-Output written on IO2_PS2_Estrada.pdf (1 page, 90222 bytes).
+ 75i,6n,79p,1008b,447s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmr17.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtk10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
+Output written on IO2_PS2_Estrada.pdf (2 pages, 188046 bytes).
 PDF statistics:
- 35 PDF objects out of 1000 (max. 8388607)
- 23 compressed objects within 1 object stream
- 3 named destinations out of 1000 (max. 500000)
- 16385 words of extra memory for PDF output out of 17280 (max. 10000000)
+ 89 PDF objects out of 1000 (max. 8388607)
+ 61 compressed objects within 1 object stream
+ 5 named destinations out of 1000 (max. 500000)
+ 24598 words of extra memory for PDF output out of 24883 (max. 10000000)
 
