@@ -1,0 +1,42 @@
+---
+title: 'IO2 PS2: Bresnahan and Reiss (1991)'
+author: "Carlos T. Estrada Arzamendi"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  pdf_document:
+    extra_dependencies: float
+    keep_tex: true
+keep_tex: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list = ls())
+library(data.table)
+library(stargazer)
+library(ggplot2)
+library(ivreg)
+#library(lubridate)
+#library(haven)
+#library(readr)
+#library(gmm)
+#library(texreg)
+#library(xtable)
+#library(modelsummary)
+
+#setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+set.seed(123)
+options(digits = 5, scipen = 4)
+```
+
+# Problem 1 : 
+Reproduce the results for the tire dealers reported in Table 4 of the paper. Note that
+Bresnahan and Reiss (1991) estimate the model imposing the constraints $\alpha_n \geq 0$ and
+$\gamma_n \geq 0$. You should impose the same constraints.
+
+
+```{r}
+data = as.data.table(read.csv("ps2.csv"))
+
+```
