@@ -15,3 +15,9 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
 set.seed(123)
 options(digits = 5, scipen = 4)
+
+x = 3
+
+#C:\Users\c.estrada\AppData\Local\Programs\Python\Python312\Scripts\radian.exe
+#C:\R\R-4.3.0
+#lalalalala new!!
