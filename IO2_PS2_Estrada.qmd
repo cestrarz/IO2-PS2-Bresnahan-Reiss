@@ -1,6 +1,7 @@
 ---
 title: 'IO2 PS2: Bresnahan and Reiss (1991)'
-author: "Carlos T. Estrada Arzamendi"
+author:
+  - name: Carlos T. Estrada Arzamendi
 date: today
 date-format: long
 format:
@@ -10,8 +11,8 @@ format:
           - left = 0.8in
           - right =  0.8in
         colorlinks: true
-        keep_tex: true
-keep_tex: true
+        keep-tex: true
+fig-align: center
 editor: visual
 ---
 
@@ -41,11 +42,9 @@ data = as.data.table(read.csv("ps2.csv"))
 ```{r figure2, out.width = "60%", fig.align = 'center', fig.cap = "Number of towns by town population"}
 figure2 = ggplot(data, aes(x = TPOP)) + 
                 geom_histogram(breaks = seq(0,7.5, by = 0.5)) + 
-                scale_x_continuous(limits = c(0, 7.5),
-                     oob = scales::oob_squish) +
+                scale_x_continuous(limits = c(0, 7.5), oob = scales::oob_squish) +
                 xlab("Town Population (thousands)") +
                 ylab("Number of Towns")
-                
 figure2
 ```
 
@@ -69,3 +68,5 @@ s = x$TPOP + lambda[1]*x$NRGW + lambda[2]*x$PGRW + lambda[3]*x$OCTY + lambda[4]*
 
 }
 ```
+
+Does this bring up the terminal?
