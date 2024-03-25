@@ -1,5 +1,5 @@
 ---
-title: 'IO2 PS2: Bresnahan and Reiss (1991)'
+title:  IO2 PS2 Bresnahan and Reiss (1991)
 author:
   - name: Carlos T. Estrada Arzamendi
 date: today
@@ -7,25 +7,36 @@ date-format: long
 format:
     pdf:
         geometry:
+          - headheight = 0 in
           - top =  1in
           - left = 0.8in
           - right =  0.8in
+          - heightrounded
         colorlinks: true
         keep-tex: true
+        papersize: a4
+        linestretch: 1.25
+    html:
+         theme: darkly
+         code-fold: true
+         code-tools: true
+code-line-numbers: true
 fig-align: center
 editor: visual
 ---
 
-```{r setup, include=FALSE}
+```{r r.setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 rm(list = ls())
 library(data.table)
 library(stargazer)
 library(ggplot2)
 library(modelsummary)
+library(knitr)
+library(dplyr)
 
 set.seed(123)
-options(digits = 5, scipen = 5)
+#options(digits = 5, scipen = 5)
 ```
 
 # Problem 1 :
@@ -40,33 +51,136 @@ data = as.data.table(read.csv("ps2.csv"))
 ## Reproducing Figure 2 to get to know the data
 
 ```{r figure2, out.width = "60%", fig.align = 'center', fig.cap = "Number of towns by town population"}
-figure2 = ggplot(data, aes(x = TPOP)) + 
-                geom_histogram(breaks = seq(0,7.5, by = 0.5)) + 
-                scale_x_continuous(limits = c(0, 7.5), oob = scales::oob_squish) +
-                xlab("Town Population (thousands)") +
-                ylab("Number of Towns")
-figure2
+# Create the break values
+breaks <- c(seq(0, 7.5, by = 0.5), Inf)
+
+# Bin the 'TPOP' column into intervals
+df <- data %>%
+  mutate(TPOP_binned = cut(TPOP, breaks = breaks, right = FALSE))
+
+# Count the number of values in each bin
+bin_counts <- df %>%
+  count(TPOP_binned)
+
+# Plot the bar chart
+ggplot(bin_counts, aes(x = TPOP_binned, y = n, width = 0.7)) +
+  geom_bar(stat = "identity", fill = "black", alpha = 0.8) +
+  labs(
+    x = "Town Population Range (000's)",
+    y = "Number of Towns",
+  )
 ```
 
 ## Reproducing Table 3 to get to know the data
 
-```{r}
+```{r table3}
 datasummary_skim(data, out = "markdown", histogram = F, title = "Replication of Table 3")
 ```
 
-## Table 4
+## Main Task: Table 4
 
-```{r}
+### Create Log-Likelihood Function
+
+```{r loglike}
+# Per-Capita Variable Profits
+V = function(x, N, alpha, beta){
+    v = alpha[1] + beta[1]*x$FFRAC + beta[2]*x$ELD + beta[3]*x$PINC +
+        beta[4]*x$LNHDD - sum(alpha[2:N])
+    return(v)
+}
+
+# Market Size
+S = function(x, lambda){
+    s = x$TPOP + lambda[1]*x$NGRW + lambda[2]*x$PGRW + lambda[3]*x$OCTY + 
+        lambda[4]*x$OPOP
+    return(s)
+}
+
+# Fixed Costs
+F = function(x, N, gamma){
+    f = gamma[1] + gamma[6]*x$LANDV + sum(gamma[2:N])
+    
+}
+
+# Profits
+P_bar = function(x, N, alpha, beta, gamma, lambda){
+    p = S(x,lambda)*V(x, N, alpha, beta) - F(x, N, gamma)
+    return(p)
+}
+
 loglike = function(par, x){
-lambda = par[1:4]
-beta = par[5:8]
-alpha = par[9:13]
-gamma = par[14:19]
 
-s = x$TPOP + lambda[1]*x$NRGW + lambda[2]*x$PGRW + lambda[3]*x$OCTY + lambda[4]*x$OPOP
+    #x = data
+    #par = rnorm(19)
 
+    # Setting parameters
+    lambda = par[1:4]  #4
+    beta = par[5:8]    #4
+    alpha = par[9:13]  #5
+    gamma = par[14:19] #6
 
+    # Profit for N firms
+    P_bar0 = P_bar(x, 0, alpha, beta, gamma, lambda)
+    P_bar1 = P_bar(x, 1, alpha, beta, gamma, lambda)
+    P_bar2 = P_bar(x, 2, alpha, beta, gamma, lambda)
+    P_bar3 = P_bar(x, 3, alpha, beta, gamma, lambda)
+    P_bar4 = P_bar(x, 4, alpha, beta, gamma, lambda)
+    P_bar5 = P_bar(x, 5, alpha, beta, gamma, lambda)
+    
+    # Probabilities of 0-5+ entrants
+    Probs = c(0,0,0,0,0,0) 
+    Probs[1] = 1 - qnorm(P_bar0)             # no entrants
+    Probs[2] = qnorm(P_bar1) - qnorm(P_bar2) # 1 entrant
+    Probs[3] = qnorm(P_bar2) - qnorm(P_bar3) # 2 entrant
+    Probs[4] = qnorm(P_bar3) - qnorm(P_bar4) # 3 entrants
+    Probs[5] = qnorm(P_bar4) - qnorm(P_bar5) # 4 entrants
+    Probs[6] = qnorm(P_bar5)                 # 5+ entrants
+
+    # Log Likelihood
+    L = sum(log(Probs[min(x$TIRE+1,5)]))
+
+    return(L)
 }
 ```
 
-Does this bring up the terminal?
+### Maximizing Log Likelihood
+
+```{r}
+par_0 = c(
+  lambda = rep(1, 4),  
+  beta = rep(1, 4),    
+  alpha = rep(1, 5),   
+  gamma = rep(1, 6)     
+)
+
+# Set the lower bounds for alpha and gamma
+lower_bounds = c(
+  rep(-999, 8),  # No lower bounds for lambda and beta
+  rep(0, 5),     # Lower bound of 0 for alpha
+  rep(0, 6)      # Lower bound of 0 for gamma
+)
+
+result = optim(
+  par_0,
+  loglike,
+  x = data,
+  method = "L-BFGS-B",
+  lower = lower_bounds
+)
+
+# Extract the optimal parameter values
+optimal_lambda = result$par[1:4]
+optimal_beta = result$par[5:8]
+optimal_alpha = result$par[9:13]
+optimal_gamma = result$par[14:19]
+
+# Extract the maximum log-likelihood value
+max_loglike = -result$value
+
+result$par
+```
+
+export R_HOME=/Library/Frameworks/R.framework/Resources/library
+/Library/Frameworks/Python.framework/Versions/3.12/bin/radian
+
+

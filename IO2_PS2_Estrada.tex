@@ -4,11 +4,12 @@
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
-  letterpaper,
+  a4paper,
   DIV=11,
   numbers=noendperiod]{scrartcl}
 
 \usepackage{amsmath,amssymb}
+\usepackage{setspace}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
@@ -40,7 +41,8 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
-\usepackage[top = 1in,left = 0.8in,right = 0.8in]{geometry}
+\usepackage[headheight = 0 in,top = 1in,left = 0.8in,right =
+0.8in,heightrounded]{geometry}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 % Make \paragraph and \subparagraph free-standing
@@ -169,7 +171,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={IO2 PS2: Bresnahan and Reiss (1991)},
+  pdftitle={IO2 PS2 Bresnahan and Reiss (1991)},
   pdfauthor={Carlos T. Estrada Arzamendi},
   colorlinks=true,
   linkcolor={blue},
@@ -178,13 +180,14 @@
   urlcolor={Blue},
   pdfcreator={LaTeX via pandoc}}
 
-\title{IO2 PS2: Bresnahan and Reiss (1991)}
+\title{IO2 PS2 Bresnahan and Reiss (1991)}
 \author{Carlos T. Estrada Arzamendi}
-\date{March 24, 2024}
+\date{March 25, 2024}
 
 \begin{document}
 \maketitle
 
+\setstretch{1.25}
 \section{Problem 1 :}\label{problem-1}
 
 Reproduce the results for the tire dealers reported in Table 4 of the
@@ -193,7 +196,7 @@ the constraints \(\alpha_n \geq 0\) and \(\gamma_n \geq 0\). You should
 impose the same constraints.
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \CommentTok{\# Reading Data}
 \NormalTok{data }\OtherTok{=} \FunctionTok{as.data.table}\NormalTok{(}\FunctionTok{read.csv}\NormalTok{(}\StringTok{"ps2.csv"}\NormalTok{))}
 \end{Highlighting}
@@ -203,7 +206,7 @@ impose the same constraints.
 data}\label{reproducing-figure-2-to-get-to-know-the-data}
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{figure2 }\OtherTok{=} \FunctionTok{ggplot}\NormalTok{(data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ TPOP)) }\SpecialCharTok{+} 
                 \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FloatTok{7.5}\NormalTok{, }\AttributeTok{by =} \FloatTok{0.5}\NormalTok{)) }\SpecialCharTok{+} 
                 \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{7.5}\NormalTok{), }\AttributeTok{oob =}\NormalTok{ scales}\SpecialCharTok{::}\NormalTok{oob\_squish) }\SpecialCharTok{+}
@@ -227,7 +230,7 @@ data}\label{reproducing-figure-2-to-get-to-know-the-data}
 data}\label{reproducing-table-3-to-get-to-know-the-data}
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \FunctionTok{datasummary\_skim}\NormalTok{(data, }\AttributeTok{out =} \StringTok{"markdown"}\NormalTok{, }\AttributeTok{histogram =}\NormalTok{ F, }\AttributeTok{title =} \StringTok{"Replication of Table 3"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -296,10 +299,10 @@ PINC & 191 & 0 & 5.9 & 1.1 & 3.2 & 5.9 & 10.5 \\
 LNHDD & 62 & 0 & 8.6 & 0.5 & 6.8 & 8.7 & 9.2 \\
 \end{longtable}
 
-\subsection{Table 4}\label{table-4}
+\subsection{Main Task: Table 4}\label{main-task-table-4}
 
 \begin{Shaded}
-\begin{Highlighting}[]
+\begin{Highlighting}[numbers=left,,]
 \NormalTok{loglike }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(par, x)\{}
 \NormalTok{lambda }\OtherTok{=}\NormalTok{ par[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}
 \NormalTok{beta }\OtherTok{=}\NormalTok{ par[}\DecValTok{5}\SpecialCharTok{:}\DecValTok{8}\NormalTok{]}
@@ -313,7 +316,6 @@ LNHDD & 62 & 0 & 8.6 & 0.5 & 6.8 & 8.7 & 9.2 \\
 \end{Highlighting}
 \end{Shaded}
 
-Does this bring up the terminal?
 
 
 
