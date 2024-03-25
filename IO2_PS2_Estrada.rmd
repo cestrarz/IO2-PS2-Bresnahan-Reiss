@@ -31,18 +31,18 @@ data = as.data.table(read.csv("ps2.csv"))
 ```
 
 ## Reproducing Figure 2 to get to know the data
-```{r figure2, out.width = "70%", fig.align = 'center'}
+```{r figure2, out.width = "70%", fig.align = 'center', fig.cap = "Number of towns by town population"}
 figure2 = ggplot(data, aes(x = TPOP)) + geom_histogram(breaks = seq(0,7.5, by = 0.5)) +
               scale_x_continuous(limits = c(0, 7.5),
                      oob = scales::oob_squish) +
             xlab("Town Population (thousands)") +
-            ylab("Number of Towns") +
-            ggtitle("Number of towns by town population")
+            ylab("Number of Towns") 
 figure2
 ```
+
 ## Table 3
 ```{r}
-datasummary_skim(data, out = "markdown", histogram = F, title = "Table 3")
+datasummary_skim(data, out = "markdown", histogram = F, title = "Replication of Table 3")
 ```
 
 ## Table 4
@@ -53,6 +53,7 @@ beta = par[5:8]
 alpha = par[9:13]
 gamma = par[14:19]
 
+s = x$TPOP + lambda[1]*x$NRGW + lambda[2]*x$PGRW + lambda[3]*x$OCTY + lambda[4]*x$OPOP
 
 }
 ```
