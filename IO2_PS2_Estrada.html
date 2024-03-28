@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Carlos T. Estrada Arzamendi">
-<meta name="dcterms.date" content="2024-03-25">
+<meta name="dcterms.date" content="2024-03-28">
 
 <title>IO2 PS2 Bresnahan and Reiss (1991)</title>
 <style>
@@ -128,7 +128,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">March 25, 2024</p>
+      <p class="date">March 28, 2024</p>
     </div>
   </div>
   
@@ -142,7 +142,9 @@ window.Quarto = {
 
 <section id="problem-1" class="level1">
 <h1>Problem 1 :</h1>
+<blockquote class="blockquote">
 <p>Reproduce the results for the tire dealers reported in Table 4 of the paper. Note that Bresnahan and Reiss (1991) estimate the model imposing the constraints <span class="math inline">\(\alpha_n \geq 0\)</span> and <span class="math inline">\(\gamma_n \geq 0\)</span>. You should impose the same constraints.</p>
+</blockquote>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -156,40 +158,41 @@ window.Quarto = {
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Create the break values</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>breaks <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">7.5</span>, <span class="at">by =</span> <span class="fl">0.5</span>), <span class="cn">Inf</span>)</span>
+<span id="cb2-2"><a href="#cb2-2"></a>breaks <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">7.5</span>, <span class="at">by =</span> <span class="fl">0.5</span>), <span class="cn">Inf</span>)</span>
 <span id="cb2-3"><a href="#cb2-3"></a></span>
 <span id="cb2-4"><a href="#cb2-4"></a><span class="co"># Bin the 'TPOP' column into intervals</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>df <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>df <span class="ot">=</span> data <span class="sc">%&gt;%</span></span>
 <span id="cb2-6"><a href="#cb2-6"></a>  <span class="fu">mutate</span>(<span class="at">TPOP_binned =</span> <span class="fu">cut</span>(TPOP, <span class="at">breaks =</span> breaks, <span class="at">right =</span> <span class="cn">FALSE</span>))</span>
 <span id="cb2-7"><a href="#cb2-7"></a></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="co"># Count the number of values in each bin</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>bin_counts <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co"># Count the number of values in each bin and plot</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>bin_counts <span class="ot">=</span> df <span class="sc">%&gt;%</span></span>
 <span id="cb2-10"><a href="#cb2-10"></a>  <span class="fu">count</span>(TPOP_binned)</span>
 <span id="cb2-11"><a href="#cb2-11"></a></span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co"># Plot the bar chart</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co"># Plot</span></span>
 <span id="cb2-13"><a href="#cb2-13"></a><span class="fu">ggplot</span>(bin_counts, <span class="fu">aes</span>(<span class="at">x =</span> TPOP_binned, <span class="at">y =</span> n, <span class="at">width =</span> <span class="fl">0.7</span>)) <span class="sc">+</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a>  <span class="fu">labs</span>(</span>
-<span id="cb2-16"><a href="#cb2-16"></a>    <span class="at">x =</span> <span class="st">"Town Population Range (000's)"</span>,</span>
-<span id="cb2-17"><a href="#cb2-17"></a>    <span class="at">y =</span> <span class="st">"Number of Towns"</span>,</span>
-<span id="cb2-18"><a href="#cb2-18"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-14"><a href="#cb2-14"></a>    <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>    <span class="fu">labs</span>(</span>
+<span id="cb2-16"><a href="#cb2-16"></a>        <span class="at">x =</span> <span class="st">"Town Population Range (000's)"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17"></a>        <span class="at">y =</span> <span class="st">"Number of Towns"</span>,</span>
+<span id="cb2-18"><a href="#cb2-18"></a>      )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="IO2_PS2_Estrada_files/figure-html/figure2-1.png" class="img-fluid figure-img" style="width:60.0%"></p>
+<p><img src="IO2_PS2_Estrada_files/figure-html/figure2-1.png" class="img-fluid figure-img" style="width:76.0%"></p>
 <figcaption>Number of towns by town population</figcaption>
 </figure>
 </div>
 </div>
 </div>
+<div style="page-break-after: always;"></div>
 </section>
 <section id="reproducing-table-3-to-get-to-know-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="reproducing-table-3-to-get-to-know-the-data">Reproducing Table 3 to get to know the data</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">datasummary_skim</span>(data, <span class="at">out =</span> <span class="st">"markdown"</span>, <span class="at">histogram =</span> F, <span class="at">title =</span> <span class="st">"Replication of Table 3"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">datasummary_skim</span>(data, <span class="at">out =</span> <span class="st">"markdown"</span>, <span class="at">histogram =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
@@ -342,77 +345,314 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="main-task-table-4" class="level2">
-<h2 class="anchored" data-anchor-id="main-task-table-4">Main Task: Table 4</h2>
-<section id="create-log-likelihood-function" class="level3">
-<h3 class="anchored" data-anchor-id="create-log-likelihood-function">Create Log-Likelihood Function</h3>
+<section id="main-task-replication-of-table-4" class="level2">
+<h2 class="anchored" data-anchor-id="main-task-replication-of-table-4">Main Task: Replication of Table 4</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Per-Capita Variable Profits</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>V <span class="ot">=</span> <span class="cf">function</span>(x, N, alpha, beta){</span>
-<span id="cb4-3"><a href="#cb4-3"></a>    v <span class="ot">=</span> alpha[<span class="dv">1</span>] <span class="sc">+</span> beta[<span class="dv">1</span>]<span class="sc">*</span>x<span class="sc">$</span>FFRAC <span class="sc">+</span> beta[<span class="dv">1</span>]<span class="sc">*</span>x<span class="sc">$</span>ELD <span class="sc">+</span> beta[<span class="dv">3</span>]<span class="sc">*</span>x<span class="sc">$</span>PINC <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>        beta[<span class="dv">4</span>]<span class="sc">*</span>x<span class="sc">$</span>LNHHD <span class="sc">+</span> <span class="fu">sum</span>(alpha[<span class="dv">2</span><span class="sc">:</span>N])</span>
-<span id="cb4-5"><a href="#cb4-5"></a>    <span class="fu">return</span>(v)</span>
-<span id="cb4-6"><a href="#cb4-6"></a>}</span>
-<span id="cb4-7"><a href="#cb4-7"></a></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co"># Market Size</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a>S <span class="ot">=</span> <span class="cf">function</span>(x, lambda){</span>
-<span id="cb4-10"><a href="#cb4-10"></a>    s <span class="ot">=</span> x<span class="sc">$</span>TPOP <span class="sc">+</span> lambda[<span class="dv">1</span>]<span class="sc">*</span>x<span class="sc">$</span>NGRW <span class="sc">+</span> lambda[<span class="dv">2</span>]<span class="sc">*</span>x<span class="sc">$</span>PGRW <span class="sc">+</span> lambda[<span class="dv">3</span>]<span class="sc">*</span>x<span class="sc">$</span>OCTY <span class="sc">+</span> </span>
-<span id="cb4-11"><a href="#cb4-11"></a>        lambda[<span class="dv">4</span>]<span class="sc">*</span>x<span class="sc">$</span>OPOP</span>
-<span id="cb4-12"><a href="#cb4-12"></a>    <span class="fu">return</span>(s)</span>
-<span id="cb4-13"><a href="#cb4-13"></a>}</span>
-<span id="cb4-14"><a href="#cb4-14"></a></span>
-<span id="cb4-15"><a href="#cb4-15"></a><span class="co"># Fixed Costs</span></span>
-<span id="cb4-16"><a href="#cb4-16"></a>F <span class="ot">=</span> <span class="cf">function</span>(x, N, gamma){</span>
-<span id="cb4-17"><a href="#cb4-17"></a>    f <span class="ot">=</span> gamma[<span class="dv">1</span>] <span class="sc">+</span> gamma[<span class="dv">6</span>]<span class="sc">*</span>x<span class="sc">$</span>LANDV <span class="sc">+</span> <span class="fu">sum</span>(gamma[<span class="dv">2</span><span class="sc">:</span>N])</span>
-<span id="cb4-18"><a href="#cb4-18"></a>    </span>
-<span id="cb4-19"><a href="#cb4-19"></a>}</span>
-<span id="cb4-20"><a href="#cb4-20"></a></span>
-<span id="cb4-21"><a href="#cb4-21"></a><span class="co"># Profits</span></span>
-<span id="cb4-22"><a href="#cb4-22"></a>P_bar <span class="ot">=</span> <span class="cf">function</span>(x, N, alpha, beta, gamma, lambda){</span>
-<span id="cb4-23"><a href="#cb4-23"></a>    p <span class="ot">=</span> <span class="fu">S</span>(x,lambda)<span class="sc">*</span><span class="fu">V</span>(x, N, alpha, beta) <span class="sc">-</span> <span class="fu">F</span>(x, N, gamma)</span>
-<span id="cb4-24"><a href="#cb4-24"></a>    <span class="fu">return</span>(p)</span>
-<span id="cb4-25"><a href="#cb4-25"></a>}</span>
-<span id="cb4-26"><a href="#cb4-26"></a></span>
-<span id="cb4-27"><a href="#cb4-27"></a>loglike <span class="ot">=</span> <span class="cf">function</span>(par, x){</span>
-<span id="cb4-28"><a href="#cb4-28"></a></span>
-<span id="cb4-29"><a href="#cb4-29"></a>    <span class="co"># Setting parameters</span></span>
-<span id="cb4-30"><a href="#cb4-30"></a>    lambda <span class="ot">=</span> par[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]  <span class="co">#4</span></span>
-<span id="cb4-31"><a href="#cb4-31"></a>    beta <span class="ot">=</span> par[<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>]    <span class="co">#4</span></span>
-<span id="cb4-32"><a href="#cb4-32"></a>    alpha <span class="ot">=</span> par[<span class="dv">9</span><span class="sc">:</span><span class="dv">13</span>]  <span class="co">#5</span></span>
-<span id="cb4-33"><a href="#cb4-33"></a>    gamma <span class="ot">=</span> par[<span class="dv">14</span><span class="sc">:</span><span class="dv">19</span>] <span class="co">#6</span></span>
-<span id="cb4-34"><a href="#cb4-34"></a></span>
-<span id="cb4-35"><a href="#cb4-35"></a>    <span class="co"># Profit for N firms</span></span>
-<span id="cb4-36"><a href="#cb4-36"></a>    P_bar0 <span class="ot">=</span> <span class="fu">P_bar</span>(x, <span class="dv">0</span>, alpha, beta, gamma, lambda)</span>
-<span id="cb4-37"><a href="#cb4-37"></a>    P_bar1 <span class="ot">=</span> <span class="fu">P_bar</span>(x, <span class="dv">0</span>, alpha, beta, gamma, lambda)</span>
-<span id="cb4-38"><a href="#cb4-38"></a>    P_bar2 <span class="ot">=</span> <span class="fu">P_bar</span>(x, <span class="dv">0</span>, alpha, beta, gamma, lambda)</span>
-<span id="cb4-39"><a href="#cb4-39"></a>    P_bar3 <span class="ot">=</span> <span class="fu">P_bar</span>(x, <span class="dv">0</span>, alpha, beta, gamma, lambda)</span>
-<span id="cb4-40"><a href="#cb4-40"></a>    P_bar4 <span class="ot">=</span> <span class="fu">P_bar</span>(x, <span class="dv">0</span>, alpha, beta, gamma, lambda)</span>
-<span id="cb4-41"><a href="#cb4-41"></a>    P_bar5 <span class="ot">=</span> <span class="fu">P_bar</span>(x, <span class="dv">5</span>, alpha, beta, gamma, lambda)</span>
-<span id="cb4-42"><a href="#cb4-42"></a>    </span>
-<span id="cb4-43"><a href="#cb4-43"></a>    <span class="co"># Probabilities of 0-5+ entrants</span></span>
-<span id="cb4-44"><a href="#cb4-44"></a>    Probs <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>) </span>
-<span id="cb4-45"><a href="#cb4-45"></a>    Probs[<span class="dv">1</span>] <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">qnorm</span>(P_bar0)             <span class="co"># no entrants</span></span>
-<span id="cb4-46"><a href="#cb4-46"></a>    Probs[<span class="dv">2</span>] <span class="ot">=</span> <span class="fu">qnorm</span>(P_bar1) <span class="sc">-</span> <span class="fu">qnorm</span>(P_bar2) <span class="co"># 1 entrant</span></span>
-<span id="cb4-47"><a href="#cb4-47"></a>    Probs[<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">qnorm</span>(P_bar2) <span class="sc">-</span> <span class="fu">qnorm</span>(P_bar3) <span class="co"># 2 entrant</span></span>
-<span id="cb4-48"><a href="#cb4-48"></a>    Probs[<span class="dv">4</span>] <span class="ot">=</span> <span class="fu">qnorm</span>(P_bar3) <span class="sc">-</span> <span class="fu">qnorm</span>(P_bar4) <span class="co"># 3 entrants</span></span>
-<span id="cb4-49"><a href="#cb4-49"></a>    Probs[<span class="dv">5</span>] <span class="ot">=</span> <span class="fu">qnorm</span>(P_bar4) <span class="sc">-</span> <span class="fu">qnorm</span>(P_bar5) <span class="co"># 4 entrants</span></span>
-<span id="cb4-50"><a href="#cb4-50"></a>    Probs[<span class="dv">6</span>] <span class="ot">=</span> <span class="fu">qnorm</span>(P_bar5)                 <span class="co"># 5+ entrants</span></span>
-<span id="cb4-51"><a href="#cb4-51"></a></span>
-<span id="cb4-52"><a href="#cb4-52"></a>    <span class="co"># Log Likelihood</span></span>
-<span id="cb4-53"><a href="#cb4-53"></a>    L <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">log</span>(Probs[x<span class="sc">$</span>TIRE<span class="dv">-1</span>]))</span>
-<span id="cb4-54"><a href="#cb4-54"></a></span>
-<span id="cb4-55"><a href="#cb4-55"></a>    <span class="fu">return</span>(<span class="sc">-</span>L)</span>
-<span id="cb4-56"><a href="#cb4-56"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Create Preliminary Functions V, S, F, Pi_bar</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co"># Per-Capita Variable Profits</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>V <span class="ot">=</span> <span class="cf">function</span>(x, N, alpha, beta){</span>
+<span id="cb4-5"><a href="#cb4-5"></a>    v <span class="ot">=</span> alpha[<span class="dv">1</span>] <span class="sc">+</span> beta[<span class="dv">1</span>]<span class="sc">*</span>x<span class="sc">$</span>ELD <span class="sc">+</span> beta[<span class="dv">2</span>]<span class="sc">*</span>x<span class="sc">$</span>PINC <span class="sc">+</span> beta[<span class="dv">3</span>]<span class="sc">*</span>x<span class="sc">$</span>LNHDD <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>        beta[<span class="dv">4</span>]<span class="sc">*</span>x<span class="sc">$</span>FFRAC <span class="sc">-</span> <span class="fu">ifelse</span>(N<span class="sc">&gt;</span><span class="dv">1</span>, <span class="fu">sum</span>(alpha[<span class="dv">2</span><span class="sc">:</span><span class="fu">min</span>(N,<span class="dv">5</span>)]), <span class="dv">0</span>)</span>
+<span id="cb4-7"><a href="#cb4-7"></a>    <span class="fu">return</span>(v)</span>
+<span id="cb4-8"><a href="#cb4-8"></a>}</span>
+<span id="cb4-9"><a href="#cb4-9"></a></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co"># Market Size</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a>S <span class="ot">=</span> <span class="cf">function</span>(x, lambda){</span>
+<span id="cb4-12"><a href="#cb4-12"></a>    s <span class="ot">=</span> x<span class="sc">$</span>TPOP <span class="sc">+</span> lambda[<span class="dv">1</span>]<span class="sc">*</span>x<span class="sc">$</span>OPOP <span class="sc">+</span> lambda[<span class="dv">2</span>]<span class="sc">*</span>x<span class="sc">$</span>NGRW <span class="sc">+</span> lambda[<span class="dv">3</span>]<span class="sc">*</span>x<span class="sc">$</span>PGRW <span class="sc">+</span> </span>
+<span id="cb4-13"><a href="#cb4-13"></a>        lambda[<span class="dv">4</span>]<span class="sc">*</span>x<span class="sc">$</span>OCTY</span>
+<span id="cb4-14"><a href="#cb4-14"></a>    <span class="fu">return</span>(s)</span>
+<span id="cb4-15"><a href="#cb4-15"></a>}</span>
+<span id="cb4-16"><a href="#cb4-16"></a></span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="co"># Fixed Costs</span></span>
+<span id="cb4-18"><a href="#cb4-18"></a>F <span class="ot">=</span> <span class="cf">function</span>(x, N, gamma){</span>
+<span id="cb4-19"><a href="#cb4-19"></a>    f <span class="ot">=</span> gamma[<span class="dv">1</span>] <span class="sc">+</span> gamma[<span class="dv">6</span>]<span class="sc">*</span>x<span class="sc">$</span>LANDV <span class="sc">+</span> <span class="fu">ifelse</span>(N<span class="sc">&gt;</span><span class="dv">1</span>, <span class="fu">sum</span>(gamma[<span class="dv">2</span><span class="sc">:</span><span class="fu">min</span>(N,<span class="dv">5</span>)]), <span class="dv">0</span>)</span>
+<span id="cb4-20"><a href="#cb4-20"></a>    </span>
+<span id="cb4-21"><a href="#cb4-21"></a>}</span>
+<span id="cb4-22"><a href="#cb4-22"></a></span>
+<span id="cb4-23"><a href="#cb4-23"></a><span class="co"># Profits</span></span>
+<span id="cb4-24"><a href="#cb4-24"></a>Pi_bar <span class="ot">=</span> <span class="cf">function</span>(x, N, alpha, beta, gamma, lambda){</span>
+<span id="cb4-25"><a href="#cb4-25"></a>    p <span class="ot">=</span> <span class="fu">S</span>(x,lambda)<span class="sc">*</span><span class="fu">V</span>(x, N, alpha, beta) <span class="sc">-</span> <span class="fu">F</span>(x, N, gamma)</span>
+<span id="cb4-26"><a href="#cb4-26"></a>    <span class="fu">return</span>(p)</span>
+<span id="cb4-27"><a href="#cb4-27"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-</section>
-<section id="maximizing-log-likelihood" class="level3">
-<h3 class="anchored" data-anchor-id="maximizing-log-likelihood">Maximizing Log Likelihood</h3>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Create Log-Likelihood Function</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a>loglike <span class="ot">=</span> <span class="cf">function</span>(par, x){</span>
+<span id="cb5-4"><a href="#cb5-4"></a>    </span>
+<span id="cb5-5"><a href="#cb5-5"></a>    <span class="co"># Setting parameters</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>    lambda <span class="ot">=</span> par[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]  <span class="co">#4</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a>    beta <span class="ot">=</span> par[<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>]    <span class="co">#4</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a>    alpha <span class="ot">=</span> par[<span class="dv">9</span><span class="sc">:</span><span class="dv">13</span>]  <span class="co">#5</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a>    gamma <span class="ot">=</span> par[<span class="dv">14</span><span class="sc">:</span><span class="dv">19</span>] <span class="co">#6</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a></span>
+<span id="cb5-11"><a href="#cb5-11"></a>    <span class="co"># Profit for N firms</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a>    Pi_bar0 <span class="ot">=</span> <span class="fu">Pi_bar</span>(x, <span class="dv">0</span>, alpha, beta, gamma, lambda) <span class="co"># no firms</span></span>
+<span id="cb5-13"><a href="#cb5-13"></a>    Pi_bar1 <span class="ot">=</span> <span class="fu">Pi_bar</span>(x, <span class="dv">1</span>, alpha, beta, gamma, lambda) <span class="co"># 1 firm</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a>    Pi_bar2 <span class="ot">=</span> <span class="fu">Pi_bar</span>(x, <span class="dv">2</span>, alpha, beta, gamma, lambda) <span class="co"># 2 firm</span></span>
+<span id="cb5-15"><a href="#cb5-15"></a>    Pi_bar3 <span class="ot">=</span> <span class="fu">Pi_bar</span>(x, <span class="dv">3</span>, alpha, beta, gamma, lambda) <span class="co"># 3 firms</span></span>
+<span id="cb5-16"><a href="#cb5-16"></a>    Pi_bar4 <span class="ot">=</span> <span class="fu">Pi_bar</span>(x, <span class="dv">4</span>, alpha, beta, gamma, lambda) <span class="co"># 4 firms</span></span>
+<span id="cb5-17"><a href="#cb5-17"></a>    Pi_bar5 <span class="ot">=</span> <span class="fu">Pi_bar</span>(x, <span class="dv">5</span>, alpha, beta, gamma, lambda) <span class="co"># 5+ firms</span></span>
+<span id="cb5-18"><a href="#cb5-18"></a>    </span>
+<span id="cb5-19"><a href="#cb5-19"></a>    <span class="co"># Initializing probabilities</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a>    Probs <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="dv">6</span>, <span class="at">nrow =</span> <span class="fu">nrow</span>(data)))</span>
+<span id="cb5-21"><a href="#cb5-21"></a>    </span>
+<span id="cb5-22"><a href="#cb5-22"></a>    </span>
+<span id="cb5-23"><a href="#cb5-23"></a>    <span class="co"># Probabilities of 0-5+ entrants for each of the 202 markets</span></span>
+<span id="cb5-24"><a href="#cb5-24"></a>    Probs[,<span class="dv">1</span>] <span class="ot">=</span> <span class="dv">1</span> <span class="sc">-</span> <span class="fu">pnorm</span>(Pi_bar1)             <span class="co"># no entrants</span></span>
+<span id="cb5-25"><a href="#cb5-25"></a>    Probs[,<span class="dv">2</span>] <span class="ot">=</span> <span class="fu">pnorm</span>(Pi_bar1) <span class="sc">-</span> <span class="fu">pnorm</span>(Pi_bar2) <span class="co"># 1 entrant</span></span>
+<span id="cb5-26"><a href="#cb5-26"></a>    Probs[,<span class="dv">3</span>] <span class="ot">=</span> <span class="fu">pnorm</span>(Pi_bar2) <span class="sc">-</span> <span class="fu">pnorm</span>(Pi_bar3) <span class="co"># 2 entrant</span></span>
+<span id="cb5-27"><a href="#cb5-27"></a>    Probs[,<span class="dv">4</span>] <span class="ot">=</span> <span class="fu">pnorm</span>(Pi_bar3) <span class="sc">-</span> <span class="fu">pnorm</span>(Pi_bar4) <span class="co"># 3 entrants</span></span>
+<span id="cb5-28"><a href="#cb5-28"></a>    Probs[,<span class="dv">5</span>] <span class="ot">=</span> <span class="fu">pnorm</span>(Pi_bar4) <span class="sc">-</span> <span class="fu">pnorm</span>(Pi_bar5) <span class="co"># 4 entrants</span></span>
+<span id="cb5-29"><a href="#cb5-29"></a>    Probs[,<span class="dv">6</span>] <span class="ot">=</span> <span class="fu">pnorm</span>(Pi_bar5)                 <span class="co"># 5+ entrants</span></span>
+<span id="cb5-30"><a href="#cb5-30"></a></span>
+<span id="cb5-31"><a href="#cb5-31"></a>    <span class="co"># Log Likelihood</span></span>
+<span id="cb5-32"><a href="#cb5-32"></a>    L <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb5-33"><a href="#cb5-33"></a>    <span class="cf">for</span>(market <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(x)){</span>
+<span id="cb5-34"><a href="#cb5-34"></a>        n_index <span class="ot">=</span> <span class="fu">min</span>(x<span class="sc">$</span>TIRE[market],<span class="dv">5</span>)<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb5-35"><a href="#cb5-35"></a>        prob <span class="ot">=</span> Probs[market, n_index]</span>
+<span id="cb5-36"><a href="#cb5-36"></a>        <span class="co">#print(prob)</span></span>
+<span id="cb5-37"><a href="#cb5-37"></a>        lprob <span class="ot">=</span> <span class="fu">log</span>(prob)</span>
+<span id="cb5-38"><a href="#cb5-38"></a>        lprob <span class="ot">=</span> <span class="fu">max</span>(lprob, <span class="sc">-</span><span class="dv">100000000</span>)</span>
+<span id="cb5-39"><a href="#cb5-39"></a>        L <span class="ot">=</span> L <span class="sc">+</span> lprob</span>
+<span id="cb5-40"><a href="#cb5-40"></a>    }</span>
+<span id="cb5-41"><a href="#cb5-41"></a></span>
+<span id="cb5-42"><a href="#cb5-42"></a>    <span class="fu">return</span>(L)</span>
+<span id="cb5-43"><a href="#cb5-43"></a>}</span>
+<span id="cb5-44"><a href="#cb5-44"></a></span>
+<span id="cb5-45"><a href="#cb5-45"></a>test_par <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb5-46"><a href="#cb5-46"></a>    <span class="at">lambda =</span> <span class="fu">c</span>(<span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>),</span>
+<span id="cb5-47"><a href="#cb5-47"></a>    <span class="at">beta   =</span> <span class="fu">c</span>(<span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>),</span>
+<span id="cb5-48"><a href="#cb5-48"></a>    <span class="at">alpha  =</span> <span class="fu">c</span>(<span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>),</span>
+<span id="cb5-49"><a href="#cb5-49"></a>    <span class="at">gamma  =</span> <span class="fu">c</span>(<span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>,  <span class="dv">0</span>)</span>
+<span id="cb5-50"><a href="#cb5-50"></a>   )</span>
+<span id="cb5-51"><a href="#cb5-51"></a></span>
+<span id="cb5-52"><a href="#cb5-52"></a><span class="co">#sprintf("%.7f", loglike(test_par,data))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>I found that the results obtained from the optimization are highly dependent on the starting values:</p>
+<ol type="1">
+<li><p>Starting far from the results found from BR1991, the optimizer finds a set of parameters that has a lower Likelihood than the true parameters (using the same likelihood function), despite the BR1991 parameters being in the support.</p></li>
+<li><p>Starting a the vector of estimates shown in BR19991, I get results that appear correct.</p></li>
+</ol>
+<p>This take me to believe the R optimizer I am using is the root to the discrepancy.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># MLE Optimization</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co"># For Benchmark</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>true_par <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb6-5"><a href="#cb6-5"></a>    <span class="at">true_lambda =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.53</span>,  <span class="fl">2.25</span>,  <span class="fl">0.34</span>,   <span class="fl">0.23</span>),</span>
+<span id="cb6-6"><a href="#cb6-6"></a>    <span class="at">true_beta   =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">0.49</span>, <span class="sc">-</span><span class="fl">0.03</span>,  <span class="fl">0.004</span>, <span class="sc">-</span><span class="fl">0.02</span>),</span>
+<span id="cb6-7"><a href="#cb6-7"></a>    <span class="at">true_alpha  =</span> <span class="fu">c</span>(<span class="fl">0.86</span>,   <span class="fl">0.03</span>,  <span class="fl">0.15</span>,   <span class="dv">0</span>,     <span class="fl">0.08</span>),</span>
+<span id="cb6-8"><a href="#cb6-8"></a>    <span class="at">true_gamma  =</span> <span class="fu">c</span>(<span class="fl">0.53</span>,   <span class="fl">0.76</span>,  <span class="fl">0.46</span>,   <span class="fl">0.6</span>,   <span class="fl">0.12</span>,  <span class="sc">-</span><span class="fl">0.74</span>)</span>
+<span id="cb6-9"><a href="#cb6-9"></a>   )</span>
+<span id="cb6-10"><a href="#cb6-10"></a>trueloglike <span class="ot">=</span> <span class="fu">loglike</span>(true_par, data)</span>
+<span id="cb6-11"><a href="#cb6-11"></a></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="co"># Starting Parameters</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a>par_0 <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb6-14"><a href="#cb6-14"></a>  <span class="at">lambda =</span> <span class="fu">rep</span>(<span class="fl">0.1</span>, <span class="dv">4</span>),  </span>
+<span id="cb6-15"><a href="#cb6-15"></a>  <span class="at">beta   =</span> <span class="fu">rep</span>(<span class="fl">0.1</span>, <span class="dv">4</span>),    </span>
+<span id="cb6-16"><a href="#cb6-16"></a>  <span class="at">alpha  =</span> <span class="fu">rep</span>(<span class="fl">0.1</span>, <span class="dv">5</span>),   </span>
+<span id="cb6-17"><a href="#cb6-17"></a>  <span class="at">gamma  =</span> <span class="fu">rep</span>(<span class="fl">0.1</span>, <span class="dv">5</span>),</span>
+<span id="cb6-18"><a href="#cb6-18"></a>  <span class="at">gamma_L =</span> <span class="fl">0.1</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a>)</span>
+<span id="cb6-20"><a href="#cb6-20"></a></span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="co"># Set the lower bounds for alpha and gamma</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a>lower_bounds <span class="ot">=</span> <span class="fu">c</span>(</span>
+<span id="cb6-23"><a href="#cb6-23"></a>  <span class="fu">rep</span>(<span class="sc">-</span><span class="cn">Inf</span>, <span class="dv">8</span>),  <span class="co"># No lower bounds for lambda 1-4 and beta 1-4</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a>  <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">10</span>),    <span class="co"># Lower bound of 0 for alpha 1-5 and gamma 1-5</span></span>
+<span id="cb6-25"><a href="#cb6-25"></a>  <span class="sc">-</span><span class="cn">Inf</span>           <span class="co"># No lower bound for gamma_L</span></span>
+<span id="cb6-26"><a href="#cb6-26"></a>)</span>
+<span id="cb6-27"><a href="#cb6-27"></a></span>
+<span id="cb6-28"><a href="#cb6-28"></a>upper_bounds <span class="ot">=</span> <span class="fu">rep</span>(<span class="cn">Inf</span>, <span class="dv">19</span>)</span>
+<span id="cb6-29"><a href="#cb6-29"></a></span>
+<span id="cb6-30"><a href="#cb6-30"></a>estimates_far <span class="ot">=</span> <span class="fu">optim</span>(</span>
+<span id="cb6-31"><a href="#cb6-31"></a>  par_0,</span>
+<span id="cb6-32"><a href="#cb6-32"></a>  loglike,</span>
+<span id="cb6-33"><a href="#cb6-33"></a>  <span class="at">x =</span> data,</span>
+<span id="cb6-34"><a href="#cb6-34"></a>  <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb6-35"><a href="#cb6-35"></a>  <span class="at">lower =</span> lower_bounds,</span>
+<span id="cb6-36"><a href="#cb6-36"></a>  <span class="at">upper =</span> upper_bounds,</span>
+<span id="cb6-37"><a href="#cb6-37"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">fnscale =</span> <span class="sc">-</span><span class="dv">1</span>) <span class="co"># for maximization</span></span>
+<span id="cb6-38"><a href="#cb6-38"></a>)</span>
+<span id="cb6-39"><a href="#cb6-39"></a></span>
+<span id="cb6-40"><a href="#cb6-40"></a>estimates_close <span class="ot">=</span> <span class="fu">optim</span>(</span>
+<span id="cb6-41"><a href="#cb6-41"></a>  true_par,</span>
+<span id="cb6-42"><a href="#cb6-42"></a>  loglike,</span>
+<span id="cb6-43"><a href="#cb6-43"></a>  <span class="at">x =</span> data,</span>
+<span id="cb6-44"><a href="#cb6-44"></a>  <span class="at">method =</span> <span class="st">"L-BFGS-B"</span>,</span>
+<span id="cb6-45"><a href="#cb6-45"></a>  <span class="at">lower =</span> lower_bounds,</span>
+<span id="cb6-46"><a href="#cb6-46"></a>  <span class="at">upper =</span> upper_bounds,</span>
+<span id="cb6-47"><a href="#cb6-47"></a>  <span class="at">control =</span> <span class="fu">list</span>(<span class="at">fnscale =</span> <span class="sc">-</span><span class="dv">1</span>) <span class="co"># for maximization</span></span>
+<span id="cb6-48"><a href="#cb6-48"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Results</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>estimloglike_far <span class="ot">=</span> <span class="fu">loglike</span>(estimates_far<span class="sc">$</span>par, data)</span>
+<span id="cb7-3"><a href="#cb7-3"></a>estimloglike_close <span class="ot">=</span> <span class="fu">loglike</span>(estimates_close<span class="sc">$</span>par, data)</span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a>params <span class="ot">=</span> <span class="fu">cbind</span>(estimates_far<span class="sc">$</span>par, estimates_close<span class="sc">$</span>par, true_par)</span>
+<span id="cb7-6"><a href="#cb7-6"></a>params <span class="ot">=</span> <span class="fu">rbind</span>(params, <span class="fu">c</span>(estimloglike_far, estimloglike_close, trueloglike))</span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="fu">rownames</span>(params)[<span class="dv">20</span>] <span class="ot">=</span> <span class="st">"Log Likelihood"</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="fu">kable</span>(params, <span class="at">col.names =</span> <span class="fu">c</span>(<span class="st">"Parameter"</span>, <span class="st">"Estimate (Far Start)"</span>,<span class="st">"Estimate (BR1991 Start)"</span>, <span class="st">"BR1991 Estimate"</span>),</span>
+<span id="cb7-10"><a href="#cb7-10"></a>      <span class="at">caption =</span> <span class="st">"MLE Parameter Estimates"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<caption>MLE Parameter Estimates</caption>
+<colgroup>
+<col style="width: 19%">
+<col style="width: 27%">
+<col style="width: 31%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: right;">Estimate (Far Start)</th>
+<th style="text-align: right;">Estimate (BR1991 Start)</th>
+<th style="text-align: right;">BR1991 Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lambda1</td>
+<td style="text-align: right;">-0.49469</td>
+<td style="text-align: right;">-0.53072</td>
+<td style="text-align: right;">-0.530</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lambda2</td>
+<td style="text-align: right;">0.54081</td>
+<td style="text-align: right;">2.25000</td>
+<td style="text-align: right;">2.250</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lambda3</td>
+<td style="text-align: right;">0.54718</td>
+<td style="text-align: right;">0.33997</td>
+<td style="text-align: right;">0.340</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lambda4</td>
+<td style="text-align: right;">0.08392</td>
+<td style="text-align: right;">0.22938</td>
+<td style="text-align: right;">0.230</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">beta1</td>
+<td style="text-align: right;">-0.21132</td>
+<td style="text-align: right;">-0.49006</td>
+<td style="text-align: right;">-0.490</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">beta2</td>
+<td style="text-align: right;">-0.01124</td>
+<td style="text-align: right;">-0.03051</td>
+<td style="text-align: right;">-0.030</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">beta3</td>
+<td style="text-align: right;">-0.03080</td>
+<td style="text-align: right;">0.00401</td>
+<td style="text-align: right;">0.004</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">beta4</td>
+<td style="text-align: right;">-0.01345</td>
+<td style="text-align: right;">-0.02064</td>
+<td style="text-align: right;">-0.020</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">alpha1</td>
+<td style="text-align: right;">0.86682</td>
+<td style="text-align: right;">0.85959</td>
+<td style="text-align: right;">0.860</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">alpha2</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">0.03294</td>
+<td style="text-align: right;">0.030</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">alpha3</td>
+<td style="text-align: right;">0.06589</td>
+<td style="text-align: right;">0.15162</td>
+<td style="text-align: right;">0.150</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">alpha4</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">0.00000</td>
+<td style="text-align: right;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">alpha5</td>
+<td style="text-align: right;">0.08571</td>
+<td style="text-align: right;">0.08057</td>
+<td style="text-align: right;">0.080</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gamma1</td>
+<td style="text-align: right;">0.36276</td>
+<td style="text-align: right;">0.52970</td>
+<td style="text-align: right;">0.530</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gamma2</td>
+<td style="text-align: right;">0.78756</td>
+<td style="text-align: right;">0.75979</td>
+<td style="text-align: right;">0.760</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gamma3</td>
+<td style="text-align: right;">0.63357</td>
+<td style="text-align: right;">0.46127</td>
+<td style="text-align: right;">0.460</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gamma4</td>
+<td style="text-align: right;">0.55880</td>
+<td style="text-align: right;">0.59872</td>
+<td style="text-align: right;">0.600</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">gamma5</td>
+<td style="text-align: right;">0.10543</td>
+<td style="text-align: right;">0.12015</td>
+<td style="text-align: right;">0.120</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gamma_L</td>
+<td style="text-align: right;">-0.72356</td>
+<td style="text-align: right;">-0.73968</td>
+<td style="text-align: right;">-0.740</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Log Likelihood</td>
+<td style="text-align: right;">-264.92299</td>
+<td style="text-align: right;">-263.09143</td>
+<td style="text-align: right;">-263.158</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <!-- -->
 
-</section>
 </section>
 </section>
 
@@ -878,153 +1118,252 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb5" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">---</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="an">title:</span><span class="co">  IO2 PS2 Bresnahan and Reiss (1991)</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="an">author:</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co">  - name: Carlos T. Estrada Arzamendi</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="an">date:</span><span class="co"> today</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="an">date-format:</span><span class="co"> long</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="an">format:</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co">    pdf:</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co">        geometry:</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="co">          - headheight = 0 in</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="co">          - top =  1in</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="co">          - left = 0.8in</span></span>
-<span id="cb5-13"><a href="#cb5-13"></a><span class="co">          - right =  0.8in</span></span>
-<span id="cb5-14"><a href="#cb5-14"></a><span class="co">          - heightrounded</span></span>
-<span id="cb5-15"><a href="#cb5-15"></a><span class="co">        colorlinks: true</span></span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="co">        keep-tex: true</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a><span class="co">        papersize: a4</span></span>
-<span id="cb5-18"><a href="#cb5-18"></a><span class="co">        linestretch: 1.25</span></span>
-<span id="cb5-19"><a href="#cb5-19"></a><span class="co">    html:</span></span>
-<span id="cb5-20"><a href="#cb5-20"></a><span class="co">         theme: darkly</span></span>
-<span id="cb5-21"><a href="#cb5-21"></a><span class="co">         code-fold: true</span></span>
-<span id="cb5-22"><a href="#cb5-22"></a><span class="co">         code-tools: true</span></span>
-<span id="cb5-23"><a href="#cb5-23"></a><span class="an">code-line-numbers:</span><span class="co"> true</span></span>
-<span id="cb5-24"><a href="#cb5-24"></a><span class="an">fig-align:</span><span class="co"> center</span></span>
-<span id="cb5-25"><a href="#cb5-25"></a><span class="an">editor:</span><span class="co"> visual</span></span>
-<span id="cb5-26"><a href="#cb5-26"></a><span class="co">---</span></span>
-<span id="cb5-27"><a href="#cb5-27"></a></span>
-<span id="cb5-28"><a href="#cb5-28"></a><span class="in">```{r r.setup, include=FALSE}</span></span>
-<span id="cb5-29"><a href="#cb5-29"></a><span class="in">knitr::opts_chunk$set(echo = TRUE)</span></span>
-<span id="cb5-30"><a href="#cb5-30"></a><span class="in">rm(list = ls())</span></span>
-<span id="cb5-31"><a href="#cb5-31"></a><span class="in">library(data.table)</span></span>
-<span id="cb5-32"><a href="#cb5-32"></a><span class="in">library(stargazer)</span></span>
-<span id="cb5-33"><a href="#cb5-33"></a><span class="in">library(ggplot2)</span></span>
-<span id="cb5-34"><a href="#cb5-34"></a><span class="in">library(modelsummary)</span></span>
-<span id="cb5-35"><a href="#cb5-35"></a><span class="in">library(knitr)</span></span>
-<span id="cb5-36"><a href="#cb5-36"></a><span class="in">library(dplyr)</span></span>
-<span id="cb5-37"><a href="#cb5-37"></a></span>
-<span id="cb5-38"><a href="#cb5-38"></a><span class="in">set.seed(123)</span></span>
-<span id="cb5-39"><a href="#cb5-39"></a><span class="in">options(digits = 5, scipen = 5)</span></span>
-<span id="cb5-40"><a href="#cb5-40"></a><span class="in">```</span></span>
-<span id="cb5-41"><a href="#cb5-41"></a></span>
-<span id="cb5-42"><a href="#cb5-42"></a><span class="fu"># Problem 1 :</span></span>
-<span id="cb5-43"><a href="#cb5-43"></a></span>
-<span id="cb5-44"><a href="#cb5-44"></a>Reproduce the results for the tire dealers reported in Table 4 of the paper. Note that Bresnahan and Reiss (1991) estimate the model imposing the constraints $\alpha_n \geq 0$ and $\gamma_n \geq 0$. You should impose the same constraints.</span>
-<span id="cb5-45"><a href="#cb5-45"></a></span>
-<span id="cb5-46"><a href="#cb5-46"></a><span class="in">```{r data}</span></span>
-<span id="cb5-47"><a href="#cb5-47"></a><span class="in"># Reading Data</span></span>
-<span id="cb5-48"><a href="#cb5-48"></a><span class="in">data = as.data.table(read.csv("ps2.csv"))</span></span>
-<span id="cb5-49"><a href="#cb5-49"></a><span class="in">```</span></span>
-<span id="cb5-50"><a href="#cb5-50"></a></span>
-<span id="cb5-51"><a href="#cb5-51"></a><span class="fu">## Reproducing Figure 2 to get to know the data</span></span>
-<span id="cb5-52"><a href="#cb5-52"></a></span>
-<span id="cb5-53"><a href="#cb5-53"></a><span class="in">```{r figure2, out.width = "60%", fig.align = 'center', fig.cap = "Number of towns by town population"}</span></span>
-<span id="cb5-54"><a href="#cb5-54"></a><span class="in"># Create the break values</span></span>
-<span id="cb5-55"><a href="#cb5-55"></a><span class="in">breaks &lt;- c(seq(0, 7.5, by = 0.5), Inf)</span></span>
-<span id="cb5-56"><a href="#cb5-56"></a></span>
-<span id="cb5-57"><a href="#cb5-57"></a><span class="in"># Bin the 'TPOP' column into intervals</span></span>
-<span id="cb5-58"><a href="#cb5-58"></a><span class="in">df &lt;- data %&gt;%</span></span>
-<span id="cb5-59"><a href="#cb5-59"></a><span class="in">  mutate(TPOP_binned = cut(TPOP, breaks = breaks, right = FALSE))</span></span>
-<span id="cb5-60"><a href="#cb5-60"></a></span>
-<span id="cb5-61"><a href="#cb5-61"></a><span class="in"># Count the number of values in each bin</span></span>
-<span id="cb5-62"><a href="#cb5-62"></a><span class="in">bin_counts &lt;- df %&gt;%</span></span>
-<span id="cb5-63"><a href="#cb5-63"></a><span class="in">  count(TPOP_binned)</span></span>
-<span id="cb5-64"><a href="#cb5-64"></a></span>
-<span id="cb5-65"><a href="#cb5-65"></a><span class="in"># Plot the bar chart</span></span>
-<span id="cb5-66"><a href="#cb5-66"></a><span class="in">ggplot(bin_counts, aes(x = TPOP_binned, y = n, width = 0.7)) +</span></span>
-<span id="cb5-67"><a href="#cb5-67"></a><span class="in">  geom_bar(stat = "identity", fill = "black", alpha = 0.8) +</span></span>
-<span id="cb5-68"><a href="#cb5-68"></a><span class="in">  labs(</span></span>
-<span id="cb5-69"><a href="#cb5-69"></a><span class="in">    x = "Town Population Range (000's)",</span></span>
-<span id="cb5-70"><a href="#cb5-70"></a><span class="in">    y = "Number of Towns",</span></span>
-<span id="cb5-71"><a href="#cb5-71"></a><span class="in">  )</span></span>
-<span id="cb5-72"><a href="#cb5-72"></a><span class="in">```</span></span>
-<span id="cb5-73"><a href="#cb5-73"></a></span>
-<span id="cb5-74"><a href="#cb5-74"></a><span class="fu">## Reproducing Table 3 to get to know the data</span></span>
-<span id="cb5-75"><a href="#cb5-75"></a></span>
-<span id="cb5-76"><a href="#cb5-76"></a><span class="in">```{r table3}</span></span>
-<span id="cb5-77"><a href="#cb5-77"></a><span class="in">datasummary_skim(data, out = "markdown", histogram = F, title = "Replication of Table 3")</span></span>
-<span id="cb5-78"><a href="#cb5-78"></a><span class="in">```</span></span>
-<span id="cb5-79"><a href="#cb5-79"></a></span>
-<span id="cb5-80"><a href="#cb5-80"></a><span class="fu">## Main Task: Table 4</span></span>
-<span id="cb5-81"><a href="#cb5-81"></a></span>
-<span id="cb5-82"><a href="#cb5-82"></a><span class="fu">### Create Log-Likelihood Function</span></span>
-<span id="cb5-83"><a href="#cb5-83"></a></span>
-<span id="cb5-84"><a href="#cb5-84"></a><span class="in">```{r loglike}</span></span>
-<span id="cb5-85"><a href="#cb5-85"></a><span class="in"># Per-Capita Variable Profits</span></span>
-<span id="cb5-86"><a href="#cb5-86"></a><span class="in">V = function(x, N, alpha, beta){</span></span>
-<span id="cb5-87"><a href="#cb5-87"></a><span class="in">    v = alpha[1] + beta[1]*x$FFRAC + beta[1]*x$ELD + beta[3]*x$PINC +</span></span>
-<span id="cb5-88"><a href="#cb5-88"></a><span class="in">        beta[4]*x$LNHHD + sum(alpha[2:N])</span></span>
-<span id="cb5-89"><a href="#cb5-89"></a><span class="in">    return(v)</span></span>
-<span id="cb5-90"><a href="#cb5-90"></a><span class="in">}</span></span>
-<span id="cb5-91"><a href="#cb5-91"></a></span>
-<span id="cb5-92"><a href="#cb5-92"></a><span class="in"># Market Size</span></span>
-<span id="cb5-93"><a href="#cb5-93"></a><span class="in">S = function(x, lambda){</span></span>
-<span id="cb5-94"><a href="#cb5-94"></a><span class="in">    s = x$TPOP + lambda[1]*x$NGRW + lambda[2]*x$PGRW + lambda[3]*x$OCTY + </span></span>
-<span id="cb5-95"><a href="#cb5-95"></a><span class="in">        lambda[4]*x$OPOP</span></span>
-<span id="cb5-96"><a href="#cb5-96"></a><span class="in">    return(s)</span></span>
-<span id="cb5-97"><a href="#cb5-97"></a><span class="in">}</span></span>
-<span id="cb5-98"><a href="#cb5-98"></a></span>
-<span id="cb5-99"><a href="#cb5-99"></a><span class="in"># Fixed Costs</span></span>
-<span id="cb5-100"><a href="#cb5-100"></a><span class="in">F = function(x, N, gamma){</span></span>
-<span id="cb5-101"><a href="#cb5-101"></a><span class="in">    f = gamma[1] + gamma[6]*x$LANDV + sum(gamma[2:N])</span></span>
-<span id="cb5-102"><a href="#cb5-102"></a><span class="in">    </span></span>
-<span id="cb5-103"><a href="#cb5-103"></a><span class="in">}</span></span>
-<span id="cb5-104"><a href="#cb5-104"></a></span>
-<span id="cb5-105"><a href="#cb5-105"></a><span class="in"># Profits</span></span>
-<span id="cb5-106"><a href="#cb5-106"></a><span class="in">P_bar = function(x, N, alpha, beta, gamma, lambda){</span></span>
-<span id="cb5-107"><a href="#cb5-107"></a><span class="in">    p = S(x,lambda)*V(x, N, alpha, beta) - F(x, N, gamma)</span></span>
-<span id="cb5-108"><a href="#cb5-108"></a><span class="in">    return(p)</span></span>
-<span id="cb5-109"><a href="#cb5-109"></a><span class="in">}</span></span>
-<span id="cb5-110"><a href="#cb5-110"></a></span>
-<span id="cb5-111"><a href="#cb5-111"></a><span class="in">loglike = function(par, x){</span></span>
-<span id="cb5-112"><a href="#cb5-112"></a></span>
-<span id="cb5-113"><a href="#cb5-113"></a><span class="in">    # Setting parameters</span></span>
-<span id="cb5-114"><a href="#cb5-114"></a><span class="in">    lambda = par[1:4]  #4</span></span>
-<span id="cb5-115"><a href="#cb5-115"></a><span class="in">    beta = par[5:8]    #4</span></span>
-<span id="cb5-116"><a href="#cb5-116"></a><span class="in">    alpha = par[9:13]  #5</span></span>
-<span id="cb5-117"><a href="#cb5-117"></a><span class="in">    gamma = par[14:19] #6</span></span>
-<span id="cb5-118"><a href="#cb5-118"></a></span>
-<span id="cb5-119"><a href="#cb5-119"></a><span class="in">    # Profit for N firms</span></span>
-<span id="cb5-120"><a href="#cb5-120"></a><span class="in">    P_bar0 = P_bar(x, 0, alpha, beta, gamma, lambda)</span></span>
-<span id="cb5-121"><a href="#cb5-121"></a><span class="in">    P_bar1 = P_bar(x, 0, alpha, beta, gamma, lambda)</span></span>
-<span id="cb5-122"><a href="#cb5-122"></a><span class="in">    P_bar2 = P_bar(x, 0, alpha, beta, gamma, lambda)</span></span>
-<span id="cb5-123"><a href="#cb5-123"></a><span class="in">    P_bar3 = P_bar(x, 0, alpha, beta, gamma, lambda)</span></span>
-<span id="cb5-124"><a href="#cb5-124"></a><span class="in">    P_bar4 = P_bar(x, 0, alpha, beta, gamma, lambda)</span></span>
-<span id="cb5-125"><a href="#cb5-125"></a><span class="in">    P_bar5 = P_bar(x, 5, alpha, beta, gamma, lambda)</span></span>
-<span id="cb5-126"><a href="#cb5-126"></a><span class="in">    </span></span>
-<span id="cb5-127"><a href="#cb5-127"></a><span class="in">    # Probabilities of 0-5+ entrants</span></span>
-<span id="cb5-128"><a href="#cb5-128"></a><span class="in">    Probs = c(0,0,0,0,0,0) </span></span>
-<span id="cb5-129"><a href="#cb5-129"></a><span class="in">    Probs[1] = 1 - qnorm(P_bar0)             # no entrants</span></span>
-<span id="cb5-130"><a href="#cb5-130"></a><span class="in">    Probs[2] = qnorm(P_bar1) - qnorm(P_bar2) # 1 entrant</span></span>
-<span id="cb5-131"><a href="#cb5-131"></a><span class="in">    Probs[3] = qnorm(P_bar2) - qnorm(P_bar3) # 2 entrant</span></span>
-<span id="cb5-132"><a href="#cb5-132"></a><span class="in">    Probs[4] = qnorm(P_bar3) - qnorm(P_bar4) # 3 entrants</span></span>
-<span id="cb5-133"><a href="#cb5-133"></a><span class="in">    Probs[5] = qnorm(P_bar4) - qnorm(P_bar5) # 4 entrants</span></span>
-<span id="cb5-134"><a href="#cb5-134"></a><span class="in">    Probs[6] = qnorm(P_bar5)                 # 5+ entrants</span></span>
-<span id="cb5-135"><a href="#cb5-135"></a></span>
-<span id="cb5-136"><a href="#cb5-136"></a><span class="in">    # Log Likelihood</span></span>
-<span id="cb5-137"><a href="#cb5-137"></a><span class="in">    L = sum(log(Probs[x$TIRE-1]))</span></span>
-<span id="cb5-138"><a href="#cb5-138"></a></span>
-<span id="cb5-139"><a href="#cb5-139"></a><span class="in">    return(-L)</span></span>
-<span id="cb5-140"><a href="#cb5-140"></a><span class="in">}</span></span>
-<span id="cb5-141"><a href="#cb5-141"></a><span class="in">```</span></span>
-<span id="cb5-142"><a href="#cb5-142"></a></span>
-<span id="cb5-143"><a href="#cb5-143"></a><span class="fu">### Maximizing Log Likelihood</span></span>
-<span id="cb5-144"><a href="#cb5-144"></a></span>
-<span id="cb5-147"><a href="#cb5-147"></a><span class="in">```{r}</span></span>
-<span id="cb5-148"><a href="#cb5-148"></a><span class="in">```</span></span>
-</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1"></a><span class="co">---</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="an">title:</span><span class="co">  IO2 PS2 Bresnahan and Reiss (1991)</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="an">author:</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="co">  - name: Carlos T. Estrada Arzamendi</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="an">date:</span><span class="co"> today</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="an">date-format:</span><span class="co"> long</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="an">format:</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="co">    html:</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="co">         theme: darkly</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="co">         code-fold: true</span></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="co">         code-tools: true</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="co">         echo: true</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="co">    pdf:</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a><span class="co">        geometry:</span></span>
+<span id="cb8-15"><a href="#cb8-15"></a><span class="co">          - headheight = 0 in</span></span>
+<span id="cb8-16"><a href="#cb8-16"></a><span class="co">          - top =  1in</span></span>
+<span id="cb8-17"><a href="#cb8-17"></a><span class="co">          - left = 0.8in</span></span>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="co">          - right =  0.8in</span></span>
+<span id="cb8-19"><a href="#cb8-19"></a><span class="co">          - heightrounded</span></span>
+<span id="cb8-20"><a href="#cb8-20"></a><span class="co">        colorlinks: true</span></span>
+<span id="cb8-21"><a href="#cb8-21"></a><span class="co">        keep-tex: true</span></span>
+<span id="cb8-22"><a href="#cb8-22"></a><span class="co">        papersize: a4</span></span>
+<span id="cb8-23"><a href="#cb8-23"></a><span class="co">        linestretch: 1.25</span></span>
+<span id="cb8-24"><a href="#cb8-24"></a><span class="co">        echo: false</span></span>
+<span id="cb8-25"><a href="#cb8-25"></a><span class="an">code-line-numbers:</span><span class="co"> true</span></span>
+<span id="cb8-26"><a href="#cb8-26"></a><span class="an">fig-align:</span><span class="co"> center</span></span>
+<span id="cb8-27"><a href="#cb8-27"></a><span class="an">editor:</span><span class="co"> visual</span></span>
+<span id="cb8-28"><a href="#cb8-28"></a><span class="co">---</span></span>
+<span id="cb8-29"><a href="#cb8-29"></a></span>
+<span id="cb8-30"><a href="#cb8-30"></a><span class="in">```{r r.setup, include=FALSE}</span></span>
+<span id="cb8-31"><a href="#cb8-31"></a><span class="in">rm(list = ls())</span></span>
+<span id="cb8-32"><a href="#cb8-32"></a><span class="in">library(data.table)</span></span>
+<span id="cb8-33"><a href="#cb8-33"></a><span class="in">library(stargazer)</span></span>
+<span id="cb8-34"><a href="#cb8-34"></a><span class="in">library(ggplot2)</span></span>
+<span id="cb8-35"><a href="#cb8-35"></a><span class="in">library(modelsummary)</span></span>
+<span id="cb8-36"><a href="#cb8-36"></a><span class="in">library(dplyr)</span></span>
+<span id="cb8-37"><a href="#cb8-37"></a></span>
+<span id="cb8-38"><a href="#cb8-38"></a><span class="in">library(knitr)</span></span>
+<span id="cb8-39"><a href="#cb8-39"></a><span class="in">library(kableExtra)</span></span>
+<span id="cb8-40"><a href="#cb8-40"></a></span>
+<span id="cb8-41"><a href="#cb8-41"></a><span class="in">set.seed(123)</span></span>
+<span id="cb8-42"><a href="#cb8-42"></a><span class="in">options(digits = 5, scipen = 5)</span></span>
+<span id="cb8-43"><a href="#cb8-43"></a><span class="in">```</span></span>
+<span id="cb8-44"><a href="#cb8-44"></a></span>
+<span id="cb8-45"><a href="#cb8-45"></a><span class="fu"># Problem 1 :</span></span>
+<span id="cb8-46"><a href="#cb8-46"></a></span>
+<span id="cb8-47"><a href="#cb8-47"></a><span class="at">&gt; Reproduce the results for the tire dealers reported in Table 4 of the paper. Note that Bresnahan and Reiss (1991) estimate the model imposing the constraints $\alpha_n \geq 0$ and $\gamma_n \geq 0$. You should impose the same constraints.</span></span>
+<span id="cb8-48"><a href="#cb8-48"></a></span>
+<span id="cb8-49"><a href="#cb8-49"></a><span class="in">```{r data}</span></span>
+<span id="cb8-50"><a href="#cb8-50"></a><span class="in"># Reading Data</span></span>
+<span id="cb8-51"><a href="#cb8-51"></a><span class="in">data = as.data.table(read.csv("ps2.csv"))</span></span>
+<span id="cb8-52"><a href="#cb8-52"></a><span class="in">```</span></span>
+<span id="cb8-53"><a href="#cb8-53"></a></span>
+<span id="cb8-54"><a href="#cb8-54"></a><span class="fu">## Reproducing Figure 2 to get to know the data</span></span>
+<span id="cb8-55"><a href="#cb8-55"></a></span>
+<span id="cb8-56"><a href="#cb8-56"></a><span class="in">```{r figure2, out.width = "76%", fig.align = 'center', fig.cap = "Number of towns by town population"}</span></span>
+<span id="cb8-57"><a href="#cb8-57"></a><span class="in"># Create the break values</span></span>
+<span id="cb8-58"><a href="#cb8-58"></a><span class="in">breaks = c(seq(0, 7.5, by = 0.5), Inf)</span></span>
+<span id="cb8-59"><a href="#cb8-59"></a></span>
+<span id="cb8-60"><a href="#cb8-60"></a><span class="in"># Bin the 'TPOP' column into intervals</span></span>
+<span id="cb8-61"><a href="#cb8-61"></a><span class="in">df = data %&gt;%</span></span>
+<span id="cb8-62"><a href="#cb8-62"></a><span class="in">  mutate(TPOP_binned = cut(TPOP, breaks = breaks, right = FALSE))</span></span>
+<span id="cb8-63"><a href="#cb8-63"></a></span>
+<span id="cb8-64"><a href="#cb8-64"></a><span class="in"># Count the number of values in each bin and plot</span></span>
+<span id="cb8-65"><a href="#cb8-65"></a><span class="in">bin_counts = df %&gt;%</span></span>
+<span id="cb8-66"><a href="#cb8-66"></a><span class="in">  count(TPOP_binned)</span></span>
+<span id="cb8-67"><a href="#cb8-67"></a></span>
+<span id="cb8-68"><a href="#cb8-68"></a><span class="in"># Plot</span></span>
+<span id="cb8-69"><a href="#cb8-69"></a><span class="in">ggplot(bin_counts, aes(x = TPOP_binned, y = n, width = 0.7)) +</span></span>
+<span id="cb8-70"><a href="#cb8-70"></a><span class="in">    geom_bar(stat = "identity", fill = "black", alpha = 0.8) +</span></span>
+<span id="cb8-71"><a href="#cb8-71"></a><span class="in">    labs(</span></span>
+<span id="cb8-72"><a href="#cb8-72"></a><span class="in">        x = "Town Population Range (000's)",</span></span>
+<span id="cb8-73"><a href="#cb8-73"></a><span class="in">        y = "Number of Towns",</span></span>
+<span id="cb8-74"><a href="#cb8-74"></a><span class="in">      )</span></span>
+<span id="cb8-75"><a href="#cb8-75"></a><span class="in">```</span></span>
+<span id="cb8-76"><a href="#cb8-76"></a></span>
+<span id="cb8-77"><a href="#cb8-77"></a>\newpage</span>
+<span id="cb8-78"><a href="#cb8-78"></a></span>
+<span id="cb8-79"><a href="#cb8-79"></a><span class="fu">## Reproducing Table 3 to get to know the data</span></span>
+<span id="cb8-80"><a href="#cb8-80"></a></span>
+<span id="cb8-81"><a href="#cb8-81"></a><span class="in">```{r table3}</span></span>
+<span id="cb8-82"><a href="#cb8-82"></a><span class="in">#| tbl-cap: "Replication of Table 3"</span></span>
+<span id="cb8-83"><a href="#cb8-83"></a><span class="in">datasummary_skim(data, out = "markdown", histogram = F)</span></span>
+<span id="cb8-84"><a href="#cb8-84"></a><span class="in">```</span></span>
+<span id="cb8-85"><a href="#cb8-85"></a></span>
+<span id="cb8-86"><a href="#cb8-86"></a><span class="fu">## Main Task: Replication of Table 4</span></span>
+<span id="cb8-87"><a href="#cb8-87"></a></span>
+<span id="cb8-88"><a href="#cb8-88"></a><span class="in">```{r prelim}</span></span>
+<span id="cb8-89"><a href="#cb8-89"></a><span class="in"># Create Preliminary Functions V, S, F, Pi_bar</span></span>
+<span id="cb8-90"><a href="#cb8-90"></a></span>
+<span id="cb8-91"><a href="#cb8-91"></a><span class="in"># Per-Capita Variable Profits</span></span>
+<span id="cb8-92"><a href="#cb8-92"></a><span class="in">V = function(x, N, alpha, beta){</span></span>
+<span id="cb8-93"><a href="#cb8-93"></a><span class="in">    v = alpha[1] + beta[1]*x$ELD + beta[2]*x$PINC + beta[3]*x$LNHDD +</span></span>
+<span id="cb8-94"><a href="#cb8-94"></a><span class="in">        beta[4]*x$FFRAC - ifelse(N&gt;1, sum(alpha[2:min(N,5)]), 0)</span></span>
+<span id="cb8-95"><a href="#cb8-95"></a><span class="in">    return(v)</span></span>
+<span id="cb8-96"><a href="#cb8-96"></a><span class="in">}</span></span>
+<span id="cb8-97"><a href="#cb8-97"></a></span>
+<span id="cb8-98"><a href="#cb8-98"></a><span class="in"># Market Size</span></span>
+<span id="cb8-99"><a href="#cb8-99"></a><span class="in">S = function(x, lambda){</span></span>
+<span id="cb8-100"><a href="#cb8-100"></a><span class="in">    s = x$TPOP + lambda[1]*x$OPOP + lambda[2]*x$NGRW + lambda[3]*x$PGRW + </span></span>
+<span id="cb8-101"><a href="#cb8-101"></a><span class="in">        lambda[4]*x$OCTY</span></span>
+<span id="cb8-102"><a href="#cb8-102"></a><span class="in">    return(s)</span></span>
+<span id="cb8-103"><a href="#cb8-103"></a><span class="in">}</span></span>
+<span id="cb8-104"><a href="#cb8-104"></a></span>
+<span id="cb8-105"><a href="#cb8-105"></a><span class="in"># Fixed Costs</span></span>
+<span id="cb8-106"><a href="#cb8-106"></a><span class="in">F = function(x, N, gamma){</span></span>
+<span id="cb8-107"><a href="#cb8-107"></a><span class="in">    f = gamma[1] + gamma[6]*x$LANDV + ifelse(N&gt;1, sum(gamma[2:min(N,5)]), 0)</span></span>
+<span id="cb8-108"><a href="#cb8-108"></a><span class="in">    </span></span>
+<span id="cb8-109"><a href="#cb8-109"></a><span class="in">}</span></span>
+<span id="cb8-110"><a href="#cb8-110"></a></span>
+<span id="cb8-111"><a href="#cb8-111"></a><span class="in"># Profits</span></span>
+<span id="cb8-112"><a href="#cb8-112"></a><span class="in">Pi_bar = function(x, N, alpha, beta, gamma, lambda){</span></span>
+<span id="cb8-113"><a href="#cb8-113"></a><span class="in">    p = S(x,lambda)*V(x, N, alpha, beta) - F(x, N, gamma)</span></span>
+<span id="cb8-114"><a href="#cb8-114"></a><span class="in">    return(p)</span></span>
+<span id="cb8-115"><a href="#cb8-115"></a><span class="in">}</span></span>
+<span id="cb8-116"><a href="#cb8-116"></a></span>
+<span id="cb8-117"><a href="#cb8-117"></a><span class="in">```</span></span>
+<span id="cb8-118"><a href="#cb8-118"></a></span>
+<span id="cb8-119"><a href="#cb8-119"></a><span class="in">```{r loglike}</span></span>
+<span id="cb8-120"><a href="#cb8-120"></a><span class="in"># Create Log-Likelihood Function</span></span>
+<span id="cb8-121"><a href="#cb8-121"></a></span>
+<span id="cb8-122"><a href="#cb8-122"></a><span class="in">loglike = function(par, x){</span></span>
+<span id="cb8-123"><a href="#cb8-123"></a><span class="in">    </span></span>
+<span id="cb8-124"><a href="#cb8-124"></a><span class="in">    # Setting parameters</span></span>
+<span id="cb8-125"><a href="#cb8-125"></a><span class="in">    lambda = par[1:4]  #4</span></span>
+<span id="cb8-126"><a href="#cb8-126"></a><span class="in">    beta = par[5:8]    #4</span></span>
+<span id="cb8-127"><a href="#cb8-127"></a><span class="in">    alpha = par[9:13]  #5</span></span>
+<span id="cb8-128"><a href="#cb8-128"></a><span class="in">    gamma = par[14:19] #6</span></span>
+<span id="cb8-129"><a href="#cb8-129"></a></span>
+<span id="cb8-130"><a href="#cb8-130"></a><span class="in">    # Profit for N firms</span></span>
+<span id="cb8-131"><a href="#cb8-131"></a><span class="in">    Pi_bar0 = Pi_bar(x, 0, alpha, beta, gamma, lambda) # no firms</span></span>
+<span id="cb8-132"><a href="#cb8-132"></a><span class="in">    Pi_bar1 = Pi_bar(x, 1, alpha, beta, gamma, lambda) # 1 firm</span></span>
+<span id="cb8-133"><a href="#cb8-133"></a><span class="in">    Pi_bar2 = Pi_bar(x, 2, alpha, beta, gamma, lambda) # 2 firm</span></span>
+<span id="cb8-134"><a href="#cb8-134"></a><span class="in">    Pi_bar3 = Pi_bar(x, 3, alpha, beta, gamma, lambda) # 3 firms</span></span>
+<span id="cb8-135"><a href="#cb8-135"></a><span class="in">    Pi_bar4 = Pi_bar(x, 4, alpha, beta, gamma, lambda) # 4 firms</span></span>
+<span id="cb8-136"><a href="#cb8-136"></a><span class="in">    Pi_bar5 = Pi_bar(x, 5, alpha, beta, gamma, lambda) # 5+ firms</span></span>
+<span id="cb8-137"><a href="#cb8-137"></a><span class="in">    </span></span>
+<span id="cb8-138"><a href="#cb8-138"></a><span class="in">    # Initializing probabilities</span></span>
+<span id="cb8-139"><a href="#cb8-139"></a><span class="in">    Probs = data.frame(matrix(ncol = 6, nrow = nrow(data)))</span></span>
+<span id="cb8-140"><a href="#cb8-140"></a><span class="in">    </span></span>
+<span id="cb8-141"><a href="#cb8-141"></a><span class="in">    </span></span>
+<span id="cb8-142"><a href="#cb8-142"></a><span class="in">    # Probabilities of 0-5+ entrants for each of the 202 markets</span></span>
+<span id="cb8-143"><a href="#cb8-143"></a><span class="in">    Probs[,1] = 1 - pnorm(Pi_bar1)             # no entrants</span></span>
+<span id="cb8-144"><a href="#cb8-144"></a><span class="in">    Probs[,2] = pnorm(Pi_bar1) - pnorm(Pi_bar2) # 1 entrant</span></span>
+<span id="cb8-145"><a href="#cb8-145"></a><span class="in">    Probs[,3] = pnorm(Pi_bar2) - pnorm(Pi_bar3) # 2 entrant</span></span>
+<span id="cb8-146"><a href="#cb8-146"></a><span class="in">    Probs[,4] = pnorm(Pi_bar3) - pnorm(Pi_bar4) # 3 entrants</span></span>
+<span id="cb8-147"><a href="#cb8-147"></a><span class="in">    Probs[,5] = pnorm(Pi_bar4) - pnorm(Pi_bar5) # 4 entrants</span></span>
+<span id="cb8-148"><a href="#cb8-148"></a><span class="in">    Probs[,6] = pnorm(Pi_bar5)                 # 5+ entrants</span></span>
+<span id="cb8-149"><a href="#cb8-149"></a></span>
+<span id="cb8-150"><a href="#cb8-150"></a><span class="in">    # Log Likelihood</span></span>
+<span id="cb8-151"><a href="#cb8-151"></a><span class="in">    L = 0</span></span>
+<span id="cb8-152"><a href="#cb8-152"></a><span class="in">    for(market in 1:nrow(x)){</span></span>
+<span id="cb8-153"><a href="#cb8-153"></a><span class="in">        n_index = min(x$TIRE[market],5)+1</span></span>
+<span id="cb8-154"><a href="#cb8-154"></a><span class="in">        prob = Probs[market, n_index]</span></span>
+<span id="cb8-155"><a href="#cb8-155"></a><span class="in">        #print(prob)</span></span>
+<span id="cb8-156"><a href="#cb8-156"></a><span class="in">        lprob = log(prob)</span></span>
+<span id="cb8-157"><a href="#cb8-157"></a><span class="in">        lprob = max(lprob, -100000000)</span></span>
+<span id="cb8-158"><a href="#cb8-158"></a><span class="in">        L = L + lprob</span></span>
+<span id="cb8-159"><a href="#cb8-159"></a><span class="in">    }</span></span>
+<span id="cb8-160"><a href="#cb8-160"></a></span>
+<span id="cb8-161"><a href="#cb8-161"></a><span class="in">    return(L)</span></span>
+<span id="cb8-162"><a href="#cb8-162"></a><span class="in">}</span></span>
+<span id="cb8-163"><a href="#cb8-163"></a></span>
+<span id="cb8-164"><a href="#cb8-164"></a><span class="in">test_par = c(</span></span>
+<span id="cb8-165"><a href="#cb8-165"></a><span class="in">    lambda = c(0,  0,  0,  0),</span></span>
+<span id="cb8-166"><a href="#cb8-166"></a><span class="in">    beta   = c(0,  0,  0,  0),</span></span>
+<span id="cb8-167"><a href="#cb8-167"></a><span class="in">    alpha  = c(0,  0,  0,  0,  0),</span></span>
+<span id="cb8-168"><a href="#cb8-168"></a><span class="in">    gamma  = c(0,  0,  0,  0,  0,  0)</span></span>
+<span id="cb8-169"><a href="#cb8-169"></a><span class="in">   )</span></span>
+<span id="cb8-170"><a href="#cb8-170"></a></span>
+<span id="cb8-171"><a href="#cb8-171"></a><span class="in">#sprintf("%.7f", loglike(test_par,data))</span></span>
+<span id="cb8-172"><a href="#cb8-172"></a></span>
+<span id="cb8-173"><a href="#cb8-173"></a><span class="in">```</span></span>
+<span id="cb8-174"><a href="#cb8-174"></a></span>
+<span id="cb8-175"><a href="#cb8-175"></a>I found that the results obtained from the optimization are highly dependent on the starting values:</span>
+<span id="cb8-176"><a href="#cb8-176"></a></span>
+<span id="cb8-177"><a href="#cb8-177"></a><span class="ss">1.  </span>Starting far from the results found from BR1991, the optimizer finds a set of parameters that has a lower Likelihood than the true parameters (using the same likelihood function), despite the BR1991 parameters being in the support.</span>
+<span id="cb8-178"><a href="#cb8-178"></a></span>
+<span id="cb8-179"><a href="#cb8-179"></a><span class="ss">2.  </span>Starting a the vector of estimates shown in BR19991, I get results that appear correct.</span>
+<span id="cb8-180"><a href="#cb8-180"></a></span>
+<span id="cb8-181"><a href="#cb8-181"></a>This take me to believe the R optimizer I am using is the root to the discrepancy.</span>
+<span id="cb8-182"><a href="#cb8-182"></a></span>
+<span id="cb8-183"><a href="#cb8-183"></a><span class="in">```{r maxloglike}</span></span>
+<span id="cb8-184"><a href="#cb8-184"></a><span class="in"># MLE Optimization</span></span>
+<span id="cb8-185"><a href="#cb8-185"></a></span>
+<span id="cb8-186"><a href="#cb8-186"></a><span class="in"># For Benchmark</span></span>
+<span id="cb8-187"><a href="#cb8-187"></a><span class="in">true_par = c(</span></span>
+<span id="cb8-188"><a href="#cb8-188"></a><span class="in">    true_lambda = c(-0.53,  2.25,  0.34,   0.23),</span></span>
+<span id="cb8-189"><a href="#cb8-189"></a><span class="in">    true_beta   = c(-0.49, -0.03,  0.004, -0.02),</span></span>
+<span id="cb8-190"><a href="#cb8-190"></a><span class="in">    true_alpha  = c(0.86,   0.03,  0.15,   0,     0.08),</span></span>
+<span id="cb8-191"><a href="#cb8-191"></a><span class="in">    true_gamma  = c(0.53,   0.76,  0.46,   0.6,   0.12,  -0.74)</span></span>
+<span id="cb8-192"><a href="#cb8-192"></a><span class="in">   )</span></span>
+<span id="cb8-193"><a href="#cb8-193"></a><span class="in">trueloglike = loglike(true_par, data)</span></span>
+<span id="cb8-194"><a href="#cb8-194"></a></span>
+<span id="cb8-195"><a href="#cb8-195"></a><span class="in"># Starting Parameters</span></span>
+<span id="cb8-196"><a href="#cb8-196"></a><span class="in">par_0 = c(</span></span>
+<span id="cb8-197"><a href="#cb8-197"></a><span class="in">  lambda = rep(0.1, 4),  </span></span>
+<span id="cb8-198"><a href="#cb8-198"></a><span class="in">  beta   = rep(0.1, 4),    </span></span>
+<span id="cb8-199"><a href="#cb8-199"></a><span class="in">  alpha  = rep(0.1, 5),   </span></span>
+<span id="cb8-200"><a href="#cb8-200"></a><span class="in">  gamma  = rep(0.1, 5),</span></span>
+<span id="cb8-201"><a href="#cb8-201"></a><span class="in">  gamma_L = 0.1</span></span>
+<span id="cb8-202"><a href="#cb8-202"></a><span class="in">)</span></span>
+<span id="cb8-203"><a href="#cb8-203"></a></span>
+<span id="cb8-204"><a href="#cb8-204"></a><span class="in"># Set the lower bounds for alpha and gamma</span></span>
+<span id="cb8-205"><a href="#cb8-205"></a><span class="in">lower_bounds = c(</span></span>
+<span id="cb8-206"><a href="#cb8-206"></a><span class="in">  rep(-Inf, 8),  # No lower bounds for lambda 1-4 and beta 1-4</span></span>
+<span id="cb8-207"><a href="#cb8-207"></a><span class="in">  rep(0, 10),    # Lower bound of 0 for alpha 1-5 and gamma 1-5</span></span>
+<span id="cb8-208"><a href="#cb8-208"></a><span class="in">  -Inf           # No lower bound for gamma_L</span></span>
+<span id="cb8-209"><a href="#cb8-209"></a><span class="in">)</span></span>
+<span id="cb8-210"><a href="#cb8-210"></a></span>
+<span id="cb8-211"><a href="#cb8-211"></a><span class="in">upper_bounds = rep(Inf, 19)</span></span>
+<span id="cb8-212"><a href="#cb8-212"></a></span>
+<span id="cb8-213"><a href="#cb8-213"></a><span class="in">estimates_far = optim(</span></span>
+<span id="cb8-214"><a href="#cb8-214"></a><span class="in">  par_0,</span></span>
+<span id="cb8-215"><a href="#cb8-215"></a><span class="in">  loglike,</span></span>
+<span id="cb8-216"><a href="#cb8-216"></a><span class="in">  x = data,</span></span>
+<span id="cb8-217"><a href="#cb8-217"></a><span class="in">  method = "L-BFGS-B",</span></span>
+<span id="cb8-218"><a href="#cb8-218"></a><span class="in">  lower = lower_bounds,</span></span>
+<span id="cb8-219"><a href="#cb8-219"></a><span class="in">  upper = upper_bounds,</span></span>
+<span id="cb8-220"><a href="#cb8-220"></a><span class="in">  control = list(fnscale = -1) # for maximization</span></span>
+<span id="cb8-221"><a href="#cb8-221"></a><span class="in">)</span></span>
+<span id="cb8-222"><a href="#cb8-222"></a></span>
+<span id="cb8-223"><a href="#cb8-223"></a><span class="in">estimates_close = optim(</span></span>
+<span id="cb8-224"><a href="#cb8-224"></a><span class="in">  true_par,</span></span>
+<span id="cb8-225"><a href="#cb8-225"></a><span class="in">  loglike,</span></span>
+<span id="cb8-226"><a href="#cb8-226"></a><span class="in">  x = data,</span></span>
+<span id="cb8-227"><a href="#cb8-227"></a><span class="in">  method = "L-BFGS-B",</span></span>
+<span id="cb8-228"><a href="#cb8-228"></a><span class="in">  lower = lower_bounds,</span></span>
+<span id="cb8-229"><a href="#cb8-229"></a><span class="in">  upper = upper_bounds,</span></span>
+<span id="cb8-230"><a href="#cb8-230"></a><span class="in">  control = list(fnscale = -1) # for maximization</span></span>
+<span id="cb8-231"><a href="#cb8-231"></a><span class="in">)</span></span>
+<span id="cb8-232"><a href="#cb8-232"></a></span>
+<span id="cb8-233"><a href="#cb8-233"></a><span class="in">```</span></span>
+<span id="cb8-234"><a href="#cb8-234"></a></span>
+<span id="cb8-235"><a href="#cb8-235"></a><span class="in">```{r results}</span></span>
+<span id="cb8-236"><a href="#cb8-236"></a><span class="in"># Results</span></span>
+<span id="cb8-237"><a href="#cb8-237"></a><span class="in">estimloglike_far = loglike(estimates_far$par, data)</span></span>
+<span id="cb8-238"><a href="#cb8-238"></a><span class="in">estimloglike_close = loglike(estimates_close$par, data)</span></span>
+<span id="cb8-239"><a href="#cb8-239"></a></span>
+<span id="cb8-240"><a href="#cb8-240"></a><span class="in">params = cbind(estimates_far$par, estimates_close$par, true_par)</span></span>
+<span id="cb8-241"><a href="#cb8-241"></a><span class="in">params = rbind(params, c(estimloglike_far, estimloglike_close, trueloglike))</span></span>
+<span id="cb8-242"><a href="#cb8-242"></a><span class="in">rownames(params)[20] = "Log Likelihood"</span></span>
+<span id="cb8-243"><a href="#cb8-243"></a></span>
+<span id="cb8-244"><a href="#cb8-244"></a><span class="in">kable(params, col.names = c("Parameter", "Estimate (Far Start)","Estimate (BR1991 Start)", "BR1991 Estimate"),</span></span>
+<span id="cb8-245"><a href="#cb8-245"></a><span class="in">      caption = "MLE Parameter Estimates")</span></span>
+<span id="cb8-246"><a href="#cb8-246"></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

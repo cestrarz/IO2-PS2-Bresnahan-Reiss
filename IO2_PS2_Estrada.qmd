@@ -5,6 +5,11 @@ author:
 date: today
 date-format: long
 format:
+    html:
+         theme: darkly
+         code-fold: true
+         code-tools: true
+         echo: true
     pdf:
         geometry:
           - headheight = 0 in
@@ -16,32 +21,30 @@ format:
         keep-tex: true
         papersize: a4
         linestretch: 1.25
-    html:
-         theme: darkly
-         code-fold: true
-         code-tools: true
+        echo: false
 code-line-numbers: true
 fig-align: center
 editor: visual
 ---
 
 ```{r r.setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 rm(list = ls())
 library(data.table)
 library(stargazer)
 library(ggplot2)
 library(modelsummary)
-library(knitr)
 library(dplyr)
 
+library(knitr)
+library(kableExtra)
+
 set.seed(123)
-#options(digits = 5, scipen = 5)
+options(digits = 5, scipen = 5)
 ```
 
 # Problem 1 :
 
-Reproduce the results for the tire dealers reported in Table 4 of the paper. Note that Bresnahan and Reiss (1991) estimate the model imposing the constraints $\alpha_n \geq 0$ and $\gamma_n \geq 0$. You should impose the same constraints.
+> Reproduce the results for the tire dealers reported in Table 4 of the paper. Note that Bresnahan and Reiss (1991) estimate the model imposing the constraints $\alpha_n \geq 0$ and $\gamma_n \geq 0$. You should impose the same constraints.
 
 ```{r data}
 # Reading Data
@@ -50,69 +53,74 @@ data = as.data.table(read.csv("ps2.csv"))
 
 ## Reproducing Figure 2 to get to know the data
 
-```{r figure2, out.width = "60%", fig.align = 'center', fig.cap = "Number of towns by town population"}
+```{r figure2, out.width = "76%", fig.align = 'center', fig.cap = "Number of towns by town population"}
 # Create the break values
-breaks <- c(seq(0, 7.5, by = 0.5), Inf)
+breaks = c(seq(0, 7.5, by = 0.5), Inf)
 
 # Bin the 'TPOP' column into intervals
-df <- data %>%
+df = data %>%
   mutate(TPOP_binned = cut(TPOP, breaks = breaks, right = FALSE))
 
-# Count the number of values in each bin
-bin_counts <- df %>%
+# Count the number of values in each bin and plot
+bin_counts = df %>%
   count(TPOP_binned)
 
-# Plot the bar chart
+# Plot
 ggplot(bin_counts, aes(x = TPOP_binned, y = n, width = 0.7)) +
-  geom_bar(stat = "identity", fill = "black", alpha = 0.8) +
-  labs(
-    x = "Town Population Range (000's)",
-    y = "Number of Towns",
-  )
+    geom_bar(stat = "identity", fill = "black", alpha = 0.8) +
+    labs(
+        x = "Town Population Range (000's)",
+        y = "Number of Towns",
+      )
 ```
+
+\newpage
 
 ## Reproducing Table 3 to get to know the data
 
 ```{r table3}
-datasummary_skim(data, out = "markdown", histogram = F, title = "Replication of Table 3")
+#| tbl-cap: "Replication of Table 3"
+datasummary_skim(data, out = "markdown", histogram = F)
 ```
 
-## Main Task: Table 4
+## Main Task: Replication of Table 4
 
-### Create Log-Likelihood Function
+```{r prelim}
+# Create Preliminary Functions V, S, F, Pi_bar
 
-```{r loglike}
 # Per-Capita Variable Profits
 V = function(x, N, alpha, beta){
-    v = alpha[1] + beta[1]*x$FFRAC + beta[2]*x$ELD + beta[3]*x$PINC +
-        beta[4]*x$LNHDD - sum(alpha[2:N])
+    v = alpha[1] + beta[1]*x$ELD + beta[2]*x$PINC + beta[3]*x$LNHDD +
+        beta[4]*x$FFRAC - ifelse(N>1, sum(alpha[2:min(N,5)]), 0)
     return(v)
 }
 
 # Market Size
 S = function(x, lambda){
-    s = x$TPOP + lambda[1]*x$NGRW + lambda[2]*x$PGRW + lambda[3]*x$OCTY + 
-        lambda[4]*x$OPOP
+    s = x$TPOP + lambda[1]*x$OPOP + lambda[2]*x$NGRW + lambda[3]*x$PGRW + 
+        lambda[4]*x$OCTY
     return(s)
 }
 
 # Fixed Costs
 F = function(x, N, gamma){
-    f = gamma[1] + gamma[6]*x$LANDV + sum(gamma[2:N])
+    f = gamma[1] + gamma[6]*x$LANDV + ifelse(N>1, sum(gamma[2:min(N,5)]), 0)
     
 }
 
 # Profits
-P_bar = function(x, N, alpha, beta, gamma, lambda){
+Pi_bar = function(x, N, alpha, beta, gamma, lambda){
     p = S(x,lambda)*V(x, N, alpha, beta) - F(x, N, gamma)
     return(p)
 }
 
+```
+
+```{r loglike}
+# Create Log-Likelihood Function
+
 loglike = function(par, x){
-
-    #x = data
-    #par = rnorm(19)
-
+    
     # Setting parameters
     lambda = par[1:4]  #4
     beta = par[5:8]    #4
@@ -120,67 +128,119 @@ loglike = function(par, x){
     gamma = par[14:19] #6
 
     # Profit for N firms
-    P_bar0 = P_bar(x, 0, alpha, beta, gamma, lambda)
-    P_bar1 = P_bar(x, 1, alpha, beta, gamma, lambda)
-    P_bar2 = P_bar(x, 2, alpha, beta, gamma, lambda)
-    P_bar3 = P_bar(x, 3, alpha, beta, gamma, lambda)
-    P_bar4 = P_bar(x, 4, alpha, beta, gamma, lambda)
-    P_bar5 = P_bar(x, 5, alpha, beta, gamma, lambda)
+    Pi_bar0 = Pi_bar(x, 0, alpha, beta, gamma, lambda) # no firms
+    Pi_bar1 = Pi_bar(x, 1, alpha, beta, gamma, lambda) # 1 firm
+    Pi_bar2 = Pi_bar(x, 2, alpha, beta, gamma, lambda) # 2 firm
+    Pi_bar3 = Pi_bar(x, 3, alpha, beta, gamma, lambda) # 3 firms
+    Pi_bar4 = Pi_bar(x, 4, alpha, beta, gamma, lambda) # 4 firms
+    Pi_bar5 = Pi_bar(x, 5, alpha, beta, gamma, lambda) # 5+ firms
     
-    # Probabilities of 0-5+ entrants
-    Probs = c(0,0,0,0,0,0) 
-    Probs[1] = 1 - qnorm(P_bar0)             # no entrants
-    Probs[2] = qnorm(P_bar1) - qnorm(P_bar2) # 1 entrant
-    Probs[3] = qnorm(P_bar2) - qnorm(P_bar3) # 2 entrant
-    Probs[4] = qnorm(P_bar3) - qnorm(P_bar4) # 3 entrants
-    Probs[5] = qnorm(P_bar4) - qnorm(P_bar5) # 4 entrants
-    Probs[6] = qnorm(P_bar5)                 # 5+ entrants
+    # Initializing probabilities
+    Probs = data.frame(matrix(ncol = 6, nrow = nrow(data)))
+    
+    
+    # Probabilities of 0-5+ entrants for each of the 202 markets
+    Probs[,1] = 1 - pnorm(Pi_bar1)             # no entrants
+    Probs[,2] = pnorm(Pi_bar1) - pnorm(Pi_bar2) # 1 entrant
+    Probs[,3] = pnorm(Pi_bar2) - pnorm(Pi_bar3) # 2 entrant
+    Probs[,4] = pnorm(Pi_bar3) - pnorm(Pi_bar4) # 3 entrants
+    Probs[,5] = pnorm(Pi_bar4) - pnorm(Pi_bar5) # 4 entrants
+    Probs[,6] = pnorm(Pi_bar5)                 # 5+ entrants
 
     # Log Likelihood
-    L = sum(log(Probs[min(x$TIRE+1,5)]))
+    L = 0
+    for(market in 1:nrow(x)){
+        n_index = min(x$TIRE[market],5)+1
+        prob = Probs[market, n_index]
+        #print(prob)
+        lprob = log(prob)
+        lprob = max(lprob, -100000000)
+        L = L + lprob
+    }
 
     return(L)
 }
+
+test_par = c(
+    lambda = c(0,  0,  0,  0),
+    beta   = c(0,  0,  0,  0),
+    alpha  = c(0,  0,  0,  0,  0),
+    gamma  = c(0,  0,  0,  0,  0,  0)
+   )
+
+#sprintf("%.7f", loglike(test_par,data))
+
 ```
 
-### Maximizing Log Likelihood
+I found that the results obtained from the optimization are highly dependent on the starting values:
 
-```{r}
+1.  Starting far from the results found from BR1991, the optimizer finds a set of parameters that has a lower Likelihood than the true parameters (using the same likelihood function), despite the BR1991 parameters being in the support.
+
+2.  Starting a the vector of estimates shown in BR19991, I get results that appear correct.
+
+This take me to believe the R optimizer I am using is the root to the discrepancy.
+
+```{r maxloglike}
+# MLE Optimization
+
+# For Benchmark
+true_par = c(
+    true_lambda = c(-0.53,  2.25,  0.34,   0.23),
+    true_beta   = c(-0.49, -0.03,  0.004, -0.02),
+    true_alpha  = c(0.86,   0.03,  0.15,   0,     0.08),
+    true_gamma  = c(0.53,   0.76,  0.46,   0.6,   0.12,  -0.74)
+   )
+trueloglike = loglike(true_par, data)
+
+# Starting Parameters
 par_0 = c(
-  lambda = rep(1, 4),  
-  beta = rep(1, 4),    
-  alpha = rep(1, 5),   
-  gamma = rep(1, 6)     
+  lambda = rep(0.1, 4),  
+  beta   = rep(0.1, 4),    
+  alpha  = rep(0.1, 5),   
+  gamma  = rep(0.1, 5),
+  gamma_L = 0.1
 )
 
 # Set the lower bounds for alpha and gamma
 lower_bounds = c(
-  rep(-999, 8),  # No lower bounds for lambda and beta
-  rep(0, 5),     # Lower bound of 0 for alpha
-  rep(0, 6)      # Lower bound of 0 for gamma
+  rep(-Inf, 8),  # No lower bounds for lambda 1-4 and beta 1-4
+  rep(0, 10),    # Lower bound of 0 for alpha 1-5 and gamma 1-5
+  -Inf           # No lower bound for gamma_L
 )
 
-result = optim(
+upper_bounds = rep(Inf, 19)
+
+estimates_far = optim(
   par_0,
   loglike,
   x = data,
   method = "L-BFGS-B",
-  lower = lower_bounds
+  lower = lower_bounds,
+  upper = upper_bounds,
+  control = list(fnscale = -1) # for maximization
 )
 
-# Extract the optimal parameter values
-optimal_lambda = result$par[1:4]
-optimal_beta = result$par[5:8]
-optimal_alpha = result$par[9:13]
-optimal_gamma = result$par[14:19]
+estimates_close = optim(
+  true_par,
+  loglike,
+  x = data,
+  method = "L-BFGS-B",
+  lower = lower_bounds,
+  upper = upper_bounds,
+  control = list(fnscale = -1) # for maximization
+)
 
-# Extract the maximum log-likelihood value
-max_loglike = -result$value
-
-result$par
 ```
 
-export R_HOME=/Library/Frameworks/R.framework/Resources/library
-/Library/Frameworks/Python.framework/Versions/3.12/bin/radian
+```{r results}
+# Results
+estimloglike_far = loglike(estimates_far$par, data)
+estimloglike_close = loglike(estimates_close$par, data)
 
+params = cbind(estimates_far$par, estimates_close$par, true_par)
+params = rbind(params, c(estimloglike_far, estimloglike_close, trueloglike))
+rownames(params)[20] = "Log Likelihood"
 
+kable(params, col.names = c("Parameter", "Estimate (Far Start)","Estimate (BR1991 Start)", "BR1991 Estimate"),
+      caption = "MLE Parameter Estimates")
+```

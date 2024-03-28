@@ -55,46 +55,6 @@
   \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
 
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{241,243,245}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
-\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
 
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
@@ -121,6 +81,20 @@
 \def\fps@figure{htbp}
 \makeatother
 
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
 \KOMAoption{captions}{tableheading}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
@@ -182,7 +156,7 @@
 
 \title{IO2 PS2 Bresnahan and Reiss (1991)}
 \author{Carlos T. Estrada Arzamendi}
-\date{March 25, 2024}
+\date{March 26, 2024}
 
 \begin{document}
 \maketitle
@@ -190,35 +164,19 @@
 \setstretch{1.25}
 \section{Problem 1 :}\label{problem-1}
 
+\begin{quote}
 Reproduce the results for the tire dealers reported in Table 4 of the
 paper. Note that Bresnahan and Reiss (1991) estimate the model imposing
 the constraints \(\alpha_n \geq 0\) and \(\gamma_n \geq 0\). You should
 impose the same constraints.
-
-\begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
-\CommentTok{\# Reading Data}
-\NormalTok{data }\OtherTok{=} \FunctionTok{as.data.table}\NormalTok{(}\FunctionTok{read.csv}\NormalTok{(}\StringTok{"ps2.csv"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
+\end{quote}
 
 \subsection{Reproducing Figure 2 to get to know the
 data}\label{reproducing-figure-2-to-get-to-know-the-data}
 
-\begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
-\NormalTok{figure2 }\OtherTok{=} \FunctionTok{ggplot}\NormalTok{(data, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ TPOP)) }\SpecialCharTok{+} 
-                \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FloatTok{7.5}\NormalTok{, }\AttributeTok{by =} \FloatTok{0.5}\NormalTok{)) }\SpecialCharTok{+} 
-                \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{7.5}\NormalTok{), }\AttributeTok{oob =}\NormalTok{ scales}\SpecialCharTok{::}\NormalTok{oob\_squish) }\SpecialCharTok{+}
-                \FunctionTok{xlab}\NormalTok{(}\StringTok{"Town Population (thousands)"}\NormalTok{) }\SpecialCharTok{+}
-                \FunctionTok{ylab}\NormalTok{(}\StringTok{"Number of Towns"}\NormalTok{)}
-\NormalTok{figure2}
-\end{Highlighting}
-\end{Shaded}
-
 \begin{figure}[H]
 
-{\centering \includegraphics[width=0.6\textwidth,height=\textheight]{IO2_PS2_Estrada_files/figure-pdf/figure2-1.pdf}
+{\centering \includegraphics[width=0.76\textwidth,height=\textheight]{IO2_PS2_Estrada_files/figure-pdf/figure2-1.pdf}
 
 }
 
@@ -226,14 +184,10 @@ data}\label{reproducing-figure-2-to-get-to-know-the-data}
 
 \end{figure}%
 
+\newpage
+
 \subsection{Reproducing Table 3 to get to know the
 data}\label{reproducing-table-3-to-get-to-know-the-data}
-
-\begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
-\FunctionTok{datasummary\_skim}\NormalTok{(data, }\AttributeTok{out =} \StringTok{"markdown"}\NormalTok{, }\AttributeTok{histogram =}\NormalTok{ F, }\AttributeTok{title =} \StringTok{"Replication of Table 3"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 14\tabcolsep) * \real{0.0897}}
@@ -299,23 +253,80 @@ PINC & 191 & 0 & 5.9 & 1.1 & 3.2 & 5.9 & 10.5 \\
 LNHDD & 62 & 0 & 8.6 & 0.5 & 6.8 & 8.7 & 9.2 \\
 \end{longtable}
 
-\subsection{Main Task: Table 4}\label{main-task-table-4}
+\subsection{Main Task: Replication of Table
+4}\label{main-task-replication-of-table-4}
 
-\begin{Shaded}
-\begin{Highlighting}[numbers=left,,]
-\NormalTok{loglike }\OtherTok{=} \ControlFlowTok{function}\NormalTok{(par, x)\{}
-\NormalTok{lambda }\OtherTok{=}\NormalTok{ par[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{]}
-\NormalTok{beta }\OtherTok{=}\NormalTok{ par[}\DecValTok{5}\SpecialCharTok{:}\DecValTok{8}\NormalTok{]}
-\NormalTok{alpha }\OtherTok{=}\NormalTok{ par[}\DecValTok{9}\SpecialCharTok{:}\DecValTok{13}\NormalTok{]}
-\NormalTok{gamma }\OtherTok{=}\NormalTok{ par[}\DecValTok{14}\SpecialCharTok{:}\DecValTok{19}\NormalTok{]}
+I found that the results obtained from the optimization are highly
+dependent on the starting values:
 
-\NormalTok{s }\OtherTok{=}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{TPOP }\SpecialCharTok{+}\NormalTok{ lambda[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{*}\NormalTok{x}\SpecialCharTok{$}\NormalTok{NRGW }\SpecialCharTok{+}\NormalTok{ lambda[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{*}\NormalTok{x}\SpecialCharTok{$}\NormalTok{PGRW }\SpecialCharTok{+}\NormalTok{ lambda[}\DecValTok{3}\NormalTok{]}\SpecialCharTok{*}\NormalTok{x}\SpecialCharTok{$}\NormalTok{OCTY }\SpecialCharTok{+}\NormalTok{ lambda[}\DecValTok{4}\NormalTok{]}\SpecialCharTok{*}\NormalTok{x}\SpecialCharTok{$}\NormalTok{OPOP}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Starting far from the results found from BR1991, the optimizer finds a
+  set of parameters that has a lower Likelihood than the true parameters
+  (using the same likelihood function), despite the BR1991 parameters
+  being in the support.
+\item
+  Starting a the vector of estimates shown in BR19991, I get results
+  that appear correct.
+\end{enumerate}
 
+This take me to believe the R optimizer I am using is the root to the
+discrepancy.
 
-\NormalTok{\}}
-\end{Highlighting}
-\end{Shaded}
-
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1974}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2763}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3158}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2105}}@{}}
+\caption{MLE Parameter Estimates}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Parameter
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Estimate (Far Start)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Estimate (BR1991 Start)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+BR1991 Estimate
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Parameter
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Estimate (Far Start)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Estimate (BR1991 Start)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+BR1991 Estimate
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+lambda1 & -0.57227 & -0.53072 & -0.530 \\
+lambda2 & 0.60978 & 2.25000 & 2.250 \\
+lambda3 & 0.61129 & 0.33997 & 0.340 \\
+lambda4 & 0.08496 & 0.22938 & 0.230 \\
+beta1 & -0.25757 & -0.49006 & -0.490 \\
+beta2 & -0.01488 & -0.03051 & -0.030 \\
+beta3 & -0.03657 & 0.00401 & 0.004 \\
+beta4 & -0.01784 & -0.02064 & -0.020 \\
+alpha1 & 0.95743 & 0.85959 & 0.860 \\
+alpha2 & 0.00032 & 0.03294 & 0.030 \\
+alpha3 & 0.06695 & 0.15162 & 0.150 \\
+alpha4 & 0.00351 & 0.00000 & 0.000 \\
+alpha5 & 0.08293 & 0.08057 & 0.080 \\
+gamma1 & 0.42810 & 0.52970 & 0.530 \\
+gamma2 & 0.76995 & 0.75979 & 0.760 \\
+gamma3 & 0.64751 & 0.46127 & 0.460 \\
+gamma4 & 0.55471 & 0.59872 & 0.600 \\
+gamma5 & 0.10361 & 0.12015 & 0.120 \\
+gamma\_L & -0.82611 & -0.73968 & -0.740 \\
+Log Likelihood & -264.76586 & -263.09143 & -263.158 \\
+\end{longtable}
 
 
 
