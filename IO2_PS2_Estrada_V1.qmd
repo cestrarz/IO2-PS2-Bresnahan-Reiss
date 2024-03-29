@@ -5,11 +5,6 @@ author:
 date: today
 date-format: long
 format:
-    html:
-         theme: darkly
-         code-fold: true
-         code-tools: true
-         echo: true
     pdf:
         geometry:
           - headheight = 0 in
@@ -18,16 +13,24 @@ format:
           - right =  0.8in
           - heightrounded
         colorlinks: true
-        keep-tex: true
+        #keep-tex: true
         papersize: a4
         linestretch: 1.25
         echo: false
+    html:
+         theme: darkly
+         code-fold: true
+         code-tools: true
+         echo: true
 code-line-numbers: true
 fig-align: center
 editor: visual
 ---
 
 ```{r r.setup, include=FALSE}
+
+# This version of the code (V1) is easiest to read, but V2 is the most efficient.
+
 rm(list = ls())
 library(data.table)
 library(stargazer)
@@ -42,6 +45,7 @@ set.seed(123)
 options(digits = 5, scipen = 5)
 ```
 
+
 # Problem 1 :
 
 > Reproduce the results for the tire dealers reported in Table 4 of the paper. Note that Bresnahan and Reiss (1991) estimate the model imposing the constraints $\alpha_n \geq 0$ and $\gamma_n \geq 0$. You should impose the same constraints.
@@ -49,6 +53,7 @@ options(digits = 5, scipen = 5)
 ```{r data}
 # Reading Data
 data = as.data.table(read.csv("ps2.csv"))
+ps2 = copy(data)
 ```
 
 ## Reproducing Figure 2 to get to know the data
@@ -127,7 +132,7 @@ loglike = function(par, x){
     alpha = par[9:13]  #5
     gamma = par[14:19] #6
 
-    # Profit for N firms
+    # Profit for N firms for each market
     Pi_bar0 = Pi_bar(x, 0, alpha, beta, gamma, lambda) # no firms
     Pi_bar1 = Pi_bar(x, 1, alpha, beta, gamma, lambda) # 1 firm
     Pi_bar2 = Pi_bar(x, 2, alpha, beta, gamma, lambda) # 2 firm
@@ -147,6 +152,9 @@ loglike = function(par, x){
     Probs[,5] = pnorm(Pi_bar4) - pnorm(Pi_bar5) # 4 entrants
     Probs[,6] = pnorm(Pi_bar5)                 # 5+ entrants
 
+    probs = as.data.table(Probs)
+    
+    
     # Log Likelihood
     L = 0
     for(market in 1:nrow(x)){
@@ -161,24 +169,20 @@ loglike = function(par, x){
     return(L)
 }
 
-test_par = c(
-    lambda = c(0,  0,  0,  0),
-    beta   = c(0,  0,  0,  0),
-    alpha  = c(0,  0,  0,  0,  0),
-    gamma  = c(0,  0,  0,  0,  0,  0)
-   )
+# Starting Parameters
+par_0 = c(
+  lambda = rep(0.1, 4),  
+  beta   = rep(0.1, 4),    
+  alpha  = rep(0.1, 5),   
+  gamma  = rep(0.1, 5),
+  gamma_L = 0.1
+)
 
-#sprintf("%.7f", loglike(test_par,data))
+#sprintf("%.7f", loglike(par_0,data))
 
 ```
 
-I found that the results obtained from the optimization are highly dependent on the starting values:
-
-1.  Starting far from the results found from BR1991, the optimizer finds a set of parameters that has a lower Likelihood than the true parameters (using the same likelihood function), despite the BR1991 parameters being in the support.
-
-2.  Starting a the vector of estimates shown in BR19991, I get results that appear correct.
-
-This take me to believe the R optimizer I am using is the root to the discrepancy.
+I struggled a lot at first, since I could not find any errors with my loglikelihood function but the optimzer was not matching the paper's numbers. Turns out I needed to increase the maximum number of iterations because it was way too low.
 
 ```{r maxloglike}
 # MLE Optimization
@@ -192,14 +196,8 @@ true_par = c(
    )
 trueloglike = loglike(true_par, data)
 
-# Starting Parameters
-par_0 = c(
-  lambda = rep(0.1, 4),  
-  beta   = rep(0.1, 4),    
-  alpha  = rep(0.1, 5),   
-  gamma  = rep(0.1, 5),
-  gamma_L = 0.1
-)
+true_se = c(.43, .75, .59, .94, .75, .04, .06, .08, .45, .15, .1,
+.05, .23, .21, .21, .12, .2, .34)
 
 # Set the lower bounds for alpha and gamma
 lower_bounds = c(
@@ -217,17 +215,8 @@ estimates_far = optim(
   method = "L-BFGS-B",
   lower = lower_bounds,
   upper = upper_bounds,
-  control = list(fnscale = -1) # for maximization
-)
-
-estimates_close = optim(
-  true_par,
-  loglike,
-  x = data,
-  method = "L-BFGS-B",
-  lower = lower_bounds,
-  upper = upper_bounds,
-  control = list(fnscale = -1) # for maximization
+  control = list(fnscale = -1, maxit = 10000),    # for maximization
+  hessian = TRUE
 )
 
 ```
@@ -235,12 +224,14 @@ estimates_close = optim(
 ```{r results}
 # Results
 estimloglike_far = loglike(estimates_far$par, data)
-estimloglike_close = loglike(estimates_close$par, data)
+far_se = sqrt(diag(solve(-estimates_far$hessian)))
 
-params = cbind(estimates_far$par, estimates_close$par, true_par)
-params = rbind(params, c(estimloglike_far, estimloglike_close, trueloglike))
+
+params = cbind(estimates_far$par,  true_par, far_se, true_se)
+params = rbind(params, c(estimloglike_far,  trueloglike, "", ""))
 rownames(params)[20] = "Log Likelihood"
 
-kable(params, col.names = c("Parameter", "Estimate (Far Start)","Estimate (BR1991 Start)", "BR1991 Estimate"),
-      caption = "MLE Parameter Estimates")
+kable(params, col.names = c("Parameter", "Estimate",  "BR1991 Estimate", "SE", "BR1991 SE"),
+      caption = "MLE Parameter Estimates", digits = 2)
 ```
+

@@ -1,0 +1,149 @@
+---
+title:  IO2 PS2 Bresnahan and Reiss (1991)
+author:
+  - name: Carlos T. Estrada Arzamendi
+date: today
+date-format: long
+format:
+    pdf:
+        geometry:
+          - headheight = 0 in
+          - top =  1in
+          - left = 0.8in
+          - right =  0.8in
+          - heightrounded
+        colorlinks: true
+        #keep-tex: true
+        papersize: a4
+        linestretch: 1.25
+        echo: false
+    html:
+         theme: darkly
+         code-fold: true
+         code-tools: true
+         echo: true
+code-line-numbers: true
+fig-align: center
+editor: visual
+---
+
+```{r r.setup, include=FALSE}
+rm(list = ls())
+library(data.table)
+library(dplyr)
+
+library(knitr)
+library(kableExtra)
+
+set.seed(123)
+options(digits = 5, scipen = 5)
+```
+
+```{r data}
+# Reading Data
+ps2 = as.data.table(read.csv("ps2.csv"))
+
+```
+
+```{r loglike}
+loglike = function(par, x){
+    
+    #par = rep(0.1, 19)
+    #x = ps2
+    
+    lambda = par[1:4]  #4
+    beta = par[5:8]    #4
+    alpha = par[9:13]  #5
+    gamma = par[14:19] #6
+
+    x = as.data.table(x)
+    x[, N := pmin(TIRE, 5)]
+    x[, Np := N+1]           # vars with p are those that would be seen with one extra entrant than actually observed
+
+    x[, S := TPOP + lambda[1]*OPOP + lambda[2]*NGRW + lambda[3]*PGRW + lambda[4]*OCTY]
+
+    x[, V := alpha[1] + beta[1]*ELD + beta[2]*PINC +
+          beta[3]*LNHDD + beta[4]*FFRAC - alpha[2]*(N>1) - alpha[3]*(N>2) - alpha[4]*(N>3) - alpha[5]*(N>4)]
+    x[, Vp := alpha[1] + beta[1]*ELD + beta[2]*PINC +
+          beta[3]*LNHDD + beta[4]*FFRAC - alpha[2]*(Np>1) - alpha[3]*(Np>2) - alpha[4]*(Np>3) - alpha[5]*(Np>4)]
+
+    x[, F := gamma[1] + gamma[6]*LANDV + gamma[2]*(N>1) + gamma[3]*(N>2) + gamma[4]*(N>3) + gamma[5]*(N>4)]
+    x[, Fp := gamma[1] + gamma[6]*LANDV + gamma[2]*(Np>1) + gamma[3]*(Np>2) + gamma[4]*(Np>3) + gamma[5]*(Np>4)]
+
+    x[, Pi_bar := S*V - F]
+    x[, Pi_barp := S*Vp - Fp]
+
+    x[, prob := ifelse(N < 1, 1 - pnorm(Pi_barp),                          # P(0) = 1 - Phi(1)
+                      ifelse(N > 0 & N < 5, pnorm(Pi_bar) - pnorm(Pi_barp), # P(1) = Phi(1) - Phi(2)
+                            pnorm(Pi_bar)))]                                # P(5+) = Phi(5)
+    x[, lprob := log(prob)]
+    x[, lprob := pmax(lprob, -100000000)]
+    
+
+    L = sum(x$lprob)
+
+    return(L)
+    
+    
+}
+
+#loglike(rep(.1,19), ps2)
+```
+
+# Problem 1 Results
+
+```{r optimizer}
+true_par = c(
+    true_lambda = c(-0.53,  2.25,  0.34,   0.23),
+    true_beta   = c(-0.49, -0.03,  0.004, -0.02),
+    true_alpha  = c(0.86,   0.03,  0.15,   0,     0.08),
+    true_gamma  = c(0.53,   0.76,  0.46,   0.6,   0.12,  -0.74)
+   )
+trueloglike = loglike(true_par, ps2)
+
+true_se = c(.43, .75, .59, .94, .75, .04, .06, .08, .45, .15, .1,
+.05, .23, .21, .21, .12, .2, .34)
+
+par_0 = c(
+  lambda = rep(1, 4),  
+  beta   = rep(0.1, 4),    
+  alpha  = rep(0.1, 5),   
+  gamma  = rep(0.1, 5),
+  gamma_L = 0.1
+)
+
+
+negloglike = function(par = rep(0.1,19) ){-loglike(par,ps2)}
+
+lower_bounds = c(
+  rep(-Inf, 8),  # No lower bounds for lambda 1-4 and beta 1-4
+  rep(0, 10),    # Lower bound of 0 for alpha 1-5 and gamma 1-5
+  -Inf           # No lower bound for gamma_L
+)
+
+
+# had to change the maximum number of itereations because the default was not enough to converge
+estimates_far = optim(
+  par_0,
+  loglike,
+  x = ps2,
+  method = "L-BFGS-B",
+  lower = lower_bounds,
+  control = list(fnscale = -1, maxit = 2000),
+  hessian = TRUE
+)
+
+```
+
+```{r results, warning = F}
+
+estimloglike_far = loglike(estimates_far$par, ps2)
+far_se = sqrt(diag(solve(-estimates_far$hessian)))
+
+params = cbind(estimates_far$par, true_par, far_se,  true_se)
+params = rbind(params, c(estimloglike_far, trueloglike))
+rownames(params)[20] = "Log Likelihood"
+
+kable(params, col.names = c("Parameter", "Estimate",  "BR1991 Estimate","Standard Errors", "BR1991 SE"),
+      caption = "MLE Parameter Estimates")
+```
